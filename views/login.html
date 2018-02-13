@@ -1,0 +1,54 @@
+
+<link rel='stylesheet' type='text/css' href='views/login.css'>
+
+<div class='row login-top-spacer'>
+  <div class='col-md-2'></div>
+  <div class='col-md-4'>
+      <div class="panel panel-primary">
+      <div class="panel-heading">Login</div>
+      <div class="panel-body">
+          <form>
+              <div class='form-group'>
+                  <label for='email'>Email: {{val}}</label> 
+                  <input ng-model='login_email' type='text' class='form-control' name='email'>
+              </div>
+              <div class='form-group'>    
+                  <label for='password'>Password:</label> 
+                  <input ng-model='login_password' type='password' class='form-control' name='password'>
+              </div>
+              <button ng-click='submitLogin()' type='submit' class='btn btn-default'>Submit</button>    
+          </form>
+      </div>
+      </div>
+  </div>
+
+  <div class='col-md-4'>
+    <div class="panel panel-primary">
+    <div class="panel-heading">Sign-Up</div>
+    <div class="panel-body">
+        <form>
+            <div class='form-group'>
+                <label for='email'>Email: {{test2}}</label> 
+                <input type='email' class='form-control' id='email'>
+            </div>
+            <div class='form-group'>
+                <label for='username'>Username:</label> 
+                <input type='username' class='form-control' id='username'>
+            </div>
+            <div class='form-group'>
+                <label for='password'>Password:</label> 
+                <input type='password' class='form-control' id='password'>
+            </div>
+            <div class='form-group'>
+                <label for='password2'>Re-enter Password:</label> 
+                <input type='password' class='form-control' id='password2'>
+            </div>
+
+            <button ng-click='submitSignup()' type='submit' class='btn btn-default'>Submit</button>
+        </form>
+      </div>
+      </div>
+  </div>
+  <div class='col-md-2'></div>
+</div>
+
