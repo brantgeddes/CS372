@@ -22,7 +22,7 @@ Install GIT:
     
 navigate to the folder you want to use for the project, and in command line:
 
-GIT CLONE https://geddes2b@bitbucket.org/geddes2b/cs372.git
+GIT CLONE https://<your-username>@bitbucket.org/geddes2b/cs372.git //Be sure to use your bitbucket username
 
 Enter password for your bitbucket account. 
 
