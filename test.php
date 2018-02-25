@@ -1,8 +1,13 @@
 <?php
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+$str_json = file_get_contents('php://input');
 
+$obj = json_decode($str_json);
 
-echo "Info: " . $email . $password; 
+phpinfo();
+
+$json_obj = json_encode($obj);
+
+echo $json_obj; 
+
 ?>
