@@ -29,6 +29,12 @@ Enter password for your bitbucket account.
 This will pull from the repository and place the project into the folder. Now all files can be viewed 
 and modified. 
 
+### SQL Table Setup ###
+
+List of SQL commands to setup project tables:
+
+CREATE TABLE Users (id INT, email VARCHAR(30), password VARCHAR(100), username VARCHAR(30), PRIMARY KEY(id));
+
 ### Contribution guidelines ###
 
 Useful tutorial: https://www.atlassian.com/git/tutorials/syncing
