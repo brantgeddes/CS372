@@ -33,7 +33,7 @@ and modified.
 
 List of SQL commands to setup project tables:
 
-CREATE TABLE Users (id INT, email VARCHAR(30), password VARCHAR(100), username VARCHAR(30), PRIMARY KEY(id));
+CREATE TABLE Users (id INT AUTO_INCREMENT, email VARCHAR(30), password VARCHAR(100), username VARCHAR(30), PRIMARY KEY(id));
 
 ### Contribution guidelines ###
 
