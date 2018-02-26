@@ -47,27 +47,27 @@ app.controller('login', function ($scope, $http) {
     
     if (validate($scope.login_email, pattern_email)) {
       form_val_email = true;
-       $scope.warning_email = "";
+       $scope.warning_login_email = "";
     } else {
       form_val_email = false;
-      $scope.warning_email = "Bad Email Input";
+      $scope.warning_login_email = "Bad Email Input";
     }
     
     if (validate($scope.login_password, pattern_password)) {
       form_val_password = true;
-      $scope.warning_password = "";
+      $scope.warning_login_password = "";
     } else {
       form_val_password = false;
-      $scope.warning_password = "Bad Password Input";
+      $scope.warning_login_password = "Bad Password Input";
     }
     
     if (form_val_email && form_val_password) {
-      var postData = JSON.stringify({email: $scope.login_email, password: $scope.login_password});
+      var data = JSON.stringify({email: $scope.login_email, password: $scope.login_password});
 
       $http({
         method : 'POST',
-        url : 'test.php',
-        data: postData,
+        url : 'routes/authentication.php',
+        data: data,
         headers : {'Content-Type': 'application/json'}  
 
       }).then(function (response) {
@@ -78,6 +78,48 @@ app.controller('login', function ($scope, $http) {
   }
   
   $scope.submitSignup = function () {
+    
+    var form_val_email = true;
+    var form_val_password = true;
+    var form_val_username = true;
+    
+    if (validate($scope.signup_email, pattern_email)) {
+      form_val_email = true;
+       $scope.warning_signup_email = "";
+    } else {
+      form_val_email = false;
+      $scope.warning_signup_email = "Bad Email Input";
+    }
+    
+    if (validate($scope.signup_password, pattern_password) && $scope.signup_password == $scope.signup_duplicatepassword) {
+      form_val_password = true;
+      $scope.warning_signup_password = "";
+    } else {
+      form_val_password = false;
+      $scope.warning_signup_password = "Bad Password Input";
+    }
+    
+    if (validate($scope.signup_username, pattern_username)) {
+      form_val_username = true;
+      $scope.warning_signup_username = "";
+    } else {
+      form_val_password = false;
+      $scope.warning_signup_username = "Bad Username Input";
+    }
+    
+    if (form_val_email && form_val_password && form_val_username) {
+      var data = JSON.stringify({email: $scope.signup_email, password: $scope.signup_password, username: $scope.signup_username});
+
+      $http({
+        method : 'POST',
+        url : 'routes/signup.php',
+        data: data,
+        headers : {'Content-Type': 'application/json'}  
+
+      }).then(function (response) {
+        log_event("Response from server", response.data);
+      });
+    }
     
   }
   

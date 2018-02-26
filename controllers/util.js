@@ -1,7 +1,7 @@
 
 var pattern_email = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/; //email format
 var pattern_password = /^(?=.*[A-Za-z])(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;	//Password Format, minimum 8 characters, case-insensitive, no whitespace, one special character
-var pattern_name = /^\S*\w+(\s\w+)*\S*$/;	//no leading or trailing whitespace, single whitespace allowed in the middle
+var pattern_username = /^\S*\w+(\w+)*\S*$/;	//no leading or trailing whitespace
 
 ////////////////////////////////////////////////////////////
 ///////////////DEV MODE////////////////////////////////////
