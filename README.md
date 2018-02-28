@@ -54,9 +54,9 @@ Create your own and set it to:
 
 <?php
 
-  $DB_USERNAME = "geddes2b";
-  $DB_PASSWORD = "medley";
-  $DB_NAME = "geddes2b";
+  $DB_USERNAME = "<database-username>";
+  $DB_PASSWORD = "<database-password>";
+  $DB_NAME = "database-name";
 
 ?>
 
