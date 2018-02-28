@@ -1,3 +1,61 @@
-<p>
-  Search Test
-</p>
+
+<link rel='stylesheet' type='text/css' href='views/search.css'>
+
+<div class='row'>
+  
+  <div class='col-sm-1'></div>
+  <div class='col-sm-4'>
+    <div class='panel panel-primary'>
+      <div class='panel-heading'>Search for Stocks:</div>
+      <div class='panel-body'>
+        <form>
+          <div class='form-group'>
+            <div class='col-sm-9'>
+              <input ng-model='stock_ticker' type='text' class='form-control' name='stock_search'>
+            </div>
+            <div class='col-sm-3'>
+              <button ng-click='searchStocks()' type='submit' class='btn btn-default'>Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class='col-sm-7'></div>
+  
+</div>
+<div class='row'>
+  <div class='col-sm-1'></div>
+  <div class='col-sm-9'>
+    <div class='panel panel-primary'>
+      <div ng-hide='search_flag' class='panel-heading'>Begin by searching for stocks</div>
+      <div ng-show='search_flag' class='panel-body'>
+        <table class='table table-striped'>
+          <thead>
+            <tr>
+              <th class='col-sm-2 text-left'>Ticker</th>
+              <th class='col-sm-2 text-left'>Name</th>
+              <th class='col-sm-2 text-center'>Value</th>
+              <th class='col-sm-2 text-center'>Absolute Change</th>
+              <th class='col-sm-2 text-center'>Percent Change</th>
+              <th class='col-sm-1 text-center'>Qty</th>
+              <th class='col-sm-1'></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat='stock in stocks'>
+              <th class='col-sm-1 text-left'>{{stock.ticker | uppercase}}</th>
+              <th class='col-sm-2 text-left'>{{stock.name}}</th>
+              <th class='col-sm-2 text-center'>{{stock.value | currency}}</th>
+              <th class='col-sm-2 text-center'>{{stock.change | currency}}</th>
+              <th class='col-sm-2 text-center'>{{stock.pchange}}%</th>
+              <th class='col-sm-1'><input ng-model='buy_qty' type='text' class='form-control' name='stock_search'></th>
+              <th class='col-sm-1'><button ng_click='buyStocks(stock, buy_qty)' type='submit' class='btn btn-default'>Buy</button></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class='col-sm-2'></div>
+</div>

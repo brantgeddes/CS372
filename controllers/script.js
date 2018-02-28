@@ -36,9 +36,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 });
 
-
 app.controller('login', function ($scope, $http) {
- 
   
   $scope.submitLogin = function () {
     
@@ -125,7 +123,42 @@ app.controller('login', function ($scope, $http) {
   
 }).controller('bug-report', function () {
   
-}).controller('search', function () {
+}).controller('search', function ($scope, $http) {
+  
+  $scope.search_flag = false;
+  
+  $scope.searchStocks = function (){
+    
+    var url_string = $scope.stock_ticker;
+    
+    $http({
+      method : 'GET',
+      url : 'routes/find_stocks.php?' + url_string,
+      headers : {'Content-Type': 'application/json'}  
+    }).then(function (response) {
+      log_event("Response from server", response.data);
+      $scope.stocks = response.data;
+    })
+    
+    $scope.search_flag = true;
+    
+  }
+  
+  $scope.buyStocks = function (stock, buy_qty){
+    
+    var data = JSON.stringify({ticker: stock.ticker, name: stock.name, value: stock.value, qty: buy_qty});
+    
+    $http({
+      method : 'POST',
+      url : 'routes/buy_stock.php',
+      data: data,
+      headers : {'Content-Type': 'application/json'}  
+    }).then(function (response) {
+      log_event("Response from server", response.data);
+      
+    })
+    
+  }
   
 }).controller('portfolio', function () {
   
