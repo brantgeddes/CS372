@@ -29,11 +29,36 @@ Enter password for your bitbucket account.
 This will pull from the repository and place the project into the folder. Now all files can be viewed 
 and modified. 
 
+### Ignoring files in GIT ###
+
+If you have files that you do not want uploaded to the repository, for example files that contain password information or
+any shell scripts, you can add them to the exclude file located in .git/info/exclude
+
+This is the contents of my exlude file:
+
+*.sh
+routes/tokens.php
+
+Add any files or file extensions that you don't want pushed to this repository
+
 ### SQL Table Setup ###
 
 List of SQL commands to setup project tables:
 
 CREATE TABLE Users (id INT AUTO_INCREMENT, email VARCHAR(30), password VARCHAR(100), username VARCHAR(30), PRIMARY KEY(id));
+
+### tokens.php ###
+
+This file is included in includes.php, and contains my database information and other account information.
+Create your own and set it to:
+
+<?php
+
+  $DB_USERNAME = "geddes2b";
+  $DB_PASSWORD = "medley";
+  $DB_NAME = "geddes2b";
+
+?>
 
 ### Contribution guidelines ###
 
