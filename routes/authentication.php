@@ -16,12 +16,22 @@ if ($method === 'POST') {
   $str_json = file_get_contents('php://input');
   $data = json_decode($str_json);
   
-  $sql = "SELECT COUNT(*) AS count FROM Users WHERE email='" . $data->email . "' AND password='" . $data->password . "';";
-  $row = $conn->query($sql)->fetch_assoc();
-  if ($row["count"] != 1) {
-    echo "0 match ";
+  $sql = "SELECT username FROM Users WHERE email='" . $data->email . "';";
+  if ($username = $conn->query($sql)->fetch_assoc()) {
+    $username = $username["username"];
   } else {
-    echo "1 match";
+    log_event($conn->error, $sql);
+  }
+ 
+  $sql = "SELECT email, password FROM Users WHERE email='" . $data->email . "';";
+  if ($row = $conn->query($sql)->fetch_assoc()) {
+    if ($row["password"] == hash($hash_type, $data->password . $username)) {
+      log_event("Login Successful", json_encode($data));
+    } else {
+      log_event("Login Failed", json_encode($data));
+    }
+  } else {
+    log_event($conn->error, $sql);
   }
   
   mysqli_close($conn);
