@@ -133,20 +133,33 @@ app.controller('login', function ($scope, $http) {
     
     $http({
       method : 'GET',
-      url : 'routes/find_stocks.php?' + url_string,
+      url : 'routes/find_stocks.php?ticker=' + url_string,
       headers : {'Content-Type': 'application/json'}  
     }).then(function (response) {
       log_event("Response from server", response.data);
-      $scope.stocks = response.data;
+      var stock_info = response.data;
+      $scope.stocks = stock_info;
     })
     
     $scope.search_flag = true;
     
+    var ctx = $("#line-chart");
+    var lineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['1', '2', '3', '4'],
+        datasets: {
+          label: 'test',
+          data: [4, 3, 2, 1]
+        }
+      }
+    });
+    
   }
   
-  $scope.buyStocks = function (stock, buy_qty){
+  $scope.buyStocks = function (buy_qty){
     
-    var data = JSON.stringify({ticker: stock.ticker, name: stock.name, value: stock.value, qty: buy_qty});
+    var data = JSON.stringify({ticker: $scope.stocks.ticker, name: $scope.stocks.name, value: $scope.stocks.value, qty: buy_qty});
     
     $http({
       method : 'POST',
@@ -165,3 +178,4 @@ app.controller('login', function ($scope, $http) {
 }).controller('leaderboard', function () {
   
 });
+

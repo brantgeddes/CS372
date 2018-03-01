@@ -43,14 +43,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat='stock in stocks'>
-              <th class='col-sm-1 text-left'>{{stock.ticker | uppercase}}</th>
-              <th class='col-sm-2 text-left'>{{stock.name}}</th>
-              <th class='col-sm-2 text-center'>{{stock.value | currency}}</th>
-              <th class='col-sm-2 text-center'>{{stock.change | currency}}</th>
-              <th class='col-sm-2 text-center'>{{stock.pchange}}%</th>
+            <tr>
+              <th class='col-sm-1 text-left'>{{stocks.ticker | uppercase}}</th>
+              <th class='col-sm-2 text-left'>{{stocks.name}}</th>
+              <th class='col-sm-2 text-center'>{{stocks.value | currency}}</th>
+              <th class='col-sm-2 text-center'>{{stocks.change | currency}}</th>
+              <th class='col-sm-2 text-center'>{{stocks.pchange | number: 2 }}%</th>
               <th class='col-sm-1'><input ng-model='buy_qty' type='text' class='form-control' name='stock_search'></th>
-              <th class='col-sm-1'><button ng_click='buyStocks(stock, buy_qty)' type='submit' class='btn btn-default'>Buy</button></th>
+              <th class='col-sm-1'><button ng_click='buyStocks(buy_qty)' type='submit' class='btn btn-default'>Buy</button></th>
             </tr>
           </tbody>
         </table>
