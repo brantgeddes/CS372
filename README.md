@@ -56,7 +56,7 @@ Create your own and set it to:
 
   $DB_USERNAME = "<database-username>";
   $DB_PASSWORD = "<database-password>";
-  $DB_NAME = "database-name";
+  $DB_NAME = "<database-name>";
 
 ?>
 
