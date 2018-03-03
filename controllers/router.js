@@ -10,7 +10,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           url: '/login',   
           views: {
             '': {
-              templateUrl: 'views/login.html'
+              templateUrl: 'views/login.html',
+              controller: 'auth'
             },
             'navbar@login': {
               templateUrl: 'views/navbar-view/navbar-empty.html'
@@ -48,7 +49,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           url: '/search',
           views: {
             '': {
-              templateUrl: 'views/search.html'
+              templateUrl: 'views/search.html',
+              controller: 'search'
             },
             'navbar@search': {
               templateUrl: 'views/navbar-view/navbar-user.html',
@@ -70,7 +72,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           url: '/portfolio',
           views: {
             '': {
-              templateUrl: 'views/portfolio.html'
+              templateUrl: 'views/portfolio.html',
+              controller: 'portfolio'
             },
             'navbar@portfolio': {
               templateUrl: 'views/navbar-view/navbar-user.html',

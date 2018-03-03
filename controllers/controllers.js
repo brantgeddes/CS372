@@ -1,6 +1,11 @@
 
 
-app.controller('login', function ($scope, $http, $state, user) {
+app.controller('auth', function ($scope, $state, user) {
+  
+  if (user.authenticate('trader')) $state.transitionTo('portfolio');  
+  if (user.authenticate('admin')) $state.transitionTo('stock-list');  
+  
+}).controller('login', function ($scope, user) {
   
   $scope.submitLogin = function () {
     
@@ -29,7 +34,7 @@ app.controller('login', function ($scope, $http, $state, user) {
     
   }
   
-}).controller('signup', function ($scope, $http, user){
+}).controller('signup', function ($scope, user){
   
   $scope.submitSignup = function () {
     
@@ -66,9 +71,15 @@ app.controller('login', function ($scope, $http, $state, user) {
     }
   }
 
-}).controller('bug-report', function () {
+}).controller('bug-report', function ($state, user) {
   
-}).controller('stock-search', function ($rootScope, $scope, $http, stock) {
+  if (!user.authenticate('trader')) $state.transitionTo('login');
+  
+}).controller('search', function ($state, user) {
+  
+  if (!user.authenticate('trader')) $state.transitionTo('login');
+  
+}).controller('stock-search', function ($scope, stock) {
   
   $scope.search_flag = false;
   
@@ -90,15 +101,19 @@ app.controller('login', function ($scope, $http, $state, user) {
     
   }
   
-}).controller('portfolio', function () {
+}).controller('portfolio', function ($state, user) {
+ 
+  if (!user.authenticate('trader')) $state.transitionTo('login');
   
-}).controller('leaderboard', function () {
   
-}).controller('navbar', function ($scope, $state, user) {
+}).controller('leaderboard', function ($state, user) {
+  
+  if (!user.authenticate('trader')) $state.transitionTo('login');
+  
+}).controller('navbar', function ($scope, user) {
   
   $scope.logout = function () {
     user.logout();
-    $state.transitionTo('login');
   }
   
 });

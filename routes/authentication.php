@@ -14,22 +14,22 @@ if ($method === 'POST') {
   $data->email = validate($data->email);
   $data->password = validate($data->password);
   
-  $sql = "SELECT username, password FROM Users WHERE email='" . $data->email . "';";
-   
+  $sql = "SELECT email, username, password, type, balance FROM Users WHERE email='" . $data->email . "';";
+  
   if ($row = $conn->query($sql)->fetch_assoc()) {
-    if ($row["password"] == hash($HASH_TYPE, $data->password . $row["username"])) {
-      echo "success";
+    if ($row["password"] == hash($HASH_TYPE, $data->password)) {
+      echo json_encode(array('valid' => 'true', 'email' => $data->email, 'username' => $row["username"], 'type' => $row["type"], 'balance' => $row["balance"]));
     } else {
-      echo "fail";
+      echo json_encode(array('valid' => 'false'));
     }
   } else {
-    echo "fail";
+    echo json_encode(array('valid' => 'false'));
   }
   
   mysqli_close($conn);
   
 } else {
-  header('location: index.html');
+ 
 }
 
 ?>

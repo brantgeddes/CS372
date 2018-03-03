@@ -3,9 +3,18 @@ app.service('user', function($http, $cookieStore, $state) {
   
   var user = [];
   
+  this.authenticate = function (type) {
+    
+    if (this.get()) {
+      if (this.get().type == type) return true; else return false;
+    } else {
+      return false;
+    }
+  }
+  
   this.login = function (user_email, user_password) {
     
-    var data = JSON.stringify({email: email, password: password});
+    var data = JSON.stringify({email: user_email, password: user_password});
 
     $http({
       method : 'POST',
@@ -15,11 +24,13 @@ app.service('user', function($http, $cookieStore, $state) {
 
     }).then(function (response) {
       log_event("Response from server", response.data);
-      if (response.data === "success") {
-        $cookieStore.put('user', JSON.stringify({email: user_email, username: ''}));
+      
+      if (response.data.valid == "true") {
+        $cookieStore.put('user', response.data);
         $state.transitionTo('portfolio');
+        return true;
       } else {
-        
+        return false;
       }
     });
     
@@ -46,9 +57,9 @@ app.service('user', function($http, $cookieStore, $state) {
     
   }
   
-  this.add = function (email, password, username) {
+  this.add = function (user_email, user_password, user_username) {
     
-    var data = JSON.stringify({email: email, password: password, username: username});
+    var data = JSON.stringify({email: user_email, password: user_password, username: user_username});
 
     $http({
       method : 'POST',
@@ -58,18 +69,22 @@ app.service('user', function($http, $cookieStore, $state) {
 
     }).then(function (response) {
       log_event("Response from server", response.data);
+      if (response.data.valid == "true") {
+        $cookieStore.put('user', response.data);
+        $state.transitionTo('portfolio');
+        return true;
+      } else {
+        return false;
+      }
     });
     
   }
   
   this.get = function () {
-    user = JSON.parse($cookieStore.get('user'));
-    return user;
+    return $cookieStore.get('user');
   }
   
-});
-
-app.service('stock', function($rootScope, $http){
+}).service('stock', function($rootScope, $http){
   
   var stock_list = [];
   
@@ -107,5 +122,7 @@ app.service('stock', function($rootScope, $http){
     })
    
   }
+  
+}).service('market', function () {
   
 });

@@ -10,7 +10,7 @@
   /////////////////////////////////////////////////////////
   
   $HASH_TYPE = 'sha512';
-
+	$STARTING_BALANCE = 1000;
   $API_STOCK_ENDPOINT = "https://api.iextrading.com/1.0/stock/market/batch";
 
   session_start();  

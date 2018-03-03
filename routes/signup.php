@@ -23,15 +23,15 @@ if ($method === 'POST') {
   $sql = "SELECT COUNT(*) AS count FROM Users WHERE email='" . $data->email . "';";
   $row = $conn->query($sql)->fetch_assoc();
   if ($row["count"] != 1) {
-    $hash_pass = hash($hash_type, $data->password . $data->username);
-    $sql = "INSERT INTO Users (email, password, username) VALUES ('" . $data->email . "', '" . $hash_pass . "', '" . $data->username . "');";
+    $hash_pass = hash($HASH_TYPE, $data->password);
+    $sql = "INSERT INTO Users (email, password, username, type, balance) VALUES ('" . $data->email . "', '" . $hash_pass . "', '" . $data->username . "', 'trader', '" . $STARTING_BALANCE . "');";
     if ($conn->query($sql)){
-      echo "success";
+      echo json_encode(array('valid' => 'true', 'email' => $data->email, 'username' => $data->username, 'type' => 'trader', 'balance' => $STARTING_BALANCE));
     } else {
-      echo "fail";
+      echo json_encode(array('valid' => 'false'));
     }
   } else {
-    echo "exists";
+    echo json_encode(array('valid' => 'false'));
   }
   
   mysqli_close($conn);
