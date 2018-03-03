@@ -16,18 +16,22 @@ if ($method === 'POST') {
   $str_json = file_get_contents('php://input');
   $data = json_decode($str_json);
   
+  $data->email = validate($data->email);
+  $data->password = validate($data->password);
+  $data->username = validate($data->username);
+  
   $sql = "SELECT COUNT(*) AS count FROM Users WHERE email='" . $data->email . "';";
   $row = $conn->query($sql)->fetch_assoc();
   if ($row["count"] != 1) {
     $hash_pass = hash($hash_type, $data->password . $data->username);
     $sql = "INSERT INTO Users (email, password, username) VALUES ('" . $data->email . "', '" . $hash_pass . "', '" . $data->username . "');";
     if ($conn->query($sql)){
-      log_event("Add Successful", json_encode($data));
+      echo "success";
     } else {
-      log_event($conn->error, $sql);
+      echo "fail";
     }
   } else {
-    log_event("Account Exists", json_encode($data));
+    echo "exists";
   }
   
   mysqli_close($conn);

@@ -15,6 +15,10 @@ function validate(value, pattern){
 	return true;
 }
 
+function authenticate(){
+	
+}
+
 function log_event(message, value) {
   if (development_mode) {
     console.log(message);

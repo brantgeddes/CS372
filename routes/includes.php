@@ -28,6 +28,13 @@
     }
   }
 
+function validate($data) {
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
+
 //Default values for API:
 //$http_method = 'GET'
 //$api_endpoint = 'https://www.alphavantage.co/query'

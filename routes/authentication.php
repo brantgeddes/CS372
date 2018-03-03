@@ -11,22 +11,19 @@ if ($method === 'POST') {
   $str_json = file_get_contents('php://input');
   $data = json_decode($str_json);
   
-  $sql = "SELECT username FROM Users WHERE email='" . $data->email . "';";
-  if ($username = $conn->query($sql)->fetch_assoc()) {
-    $username = $username["username"];
-  } else {
-    log_event($conn->error, $sql);
-  }
- 
-  $sql = "SELECT email, password FROM Users WHERE email='" . $data->email . "';";
+  $data->email = validate($data->email);
+  $data->password = validate($data->password);
+  
+  $sql = "SELECT username, password FROM Users WHERE email='" . $data->email . "';";
+   
   if ($row = $conn->query($sql)->fetch_assoc()) {
-    if ($row["password"] == hash($HASH_TYPE, $data->password . $username)) {
-      log_event("Login Successful", json_encode($data));
+    if ($row["password"] == hash($HASH_TYPE, $data->password . $row["username"])) {
+      echo "success";
     } else {
-      log_event("Login Failed", json_encode($data));
+      echo "fail";
     }
   } else {
-    log_event($conn->error, $sql);
+    echo "fail";
   }
   
   mysqli_close($conn);

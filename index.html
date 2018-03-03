@@ -2,10 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Webapp</title>
-    <base href='~geddes2b'>
+    <title>Market Simulator</title>
+    
     <link rel='stylesheet' type='text/css' href='index_style.css'>
-    <script type='text/javascript' src='controllers/util.js'></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -13,35 +12,23 @@
 
     <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-charts/0.2.7/angular-charts.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-cookies.js"></script>
     
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     
-    <script type='text/javascript' src='controllers/script.js'></script>
+    <script type='text/javascript' src='controllers/util.js'></script>
+    <script type='text/javascript' src='controllers/app.js'></script>
+    <script type='text/javascript' src='controllers/router.js'></script>
+    <script type='text/javascript' src='controllers/services.js'></script>
+    <script type='text/javascript' src='controllers/controllers.js'></script>
     
   </head>
   <body ng-app='webapp'>
     
-    <nav class="navbar navbar-default">
-     <div class="container-fluid">
-        <div class="navbar-header">
-         <a class="navbar-brand" ui-sref="login">Stock Market Simulator</a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a ui-sref="portfolio">Portfolio</a></li>
-          <li><a ui-sref="search">Search Stocks</a></li>
-          <li><a ui-sref="leaderboard">Leaderboard</a></li>
-          <li><a ui-sref="bug-report">Submit Bug</a></li>
-          <li class='navbar-padding'></li>
-        </ul>
-      </div>
-    </nav>
     
-    <div class='container'>
       <div ui-view></div>
-    </div>
+    
     
     
     <footer class="footer">

@@ -1,0 +1,30 @@
+
+<div class='panel panel-primary'>
+      <div ng-hide='search_flag' class='panel-heading'>Begin by searching for stocks</div>
+      <div ng-show='search_flag' class='panel-body'>
+        <table class='table table-striped'>
+          <thead>
+            <tr>
+              <th class='col-sm-2 text-left'>Ticker</th>
+              <th class='col-sm-2 text-left'>Name</th>
+              <th class='col-sm-2 text-center'>Value</th>
+              <th class='col-sm-2 text-center'>Absolute Change</th>
+              <th class='col-sm-2 text-center'>Percent Change</th>
+              <th class='col-sm-1 text-center'>Qty</th>
+              <th class='col-sm-1'></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th class='col-sm-1 text-left'>{{stocks.ticker | uppercase}}</th>
+              <th class='col-sm-2 text-left'>{{stocks.name}}</th>
+              <th class='col-sm-2 text-center'>{{stocks.value | currency}}</th>
+              <th class='col-sm-2 text-center'>{{stocks.change | currency}}</th>
+              <th class='col-sm-2 text-center'>{{stocks.pchange | number: 2}}%</th>
+              <th class='col-sm-1'><input ng-model='buy_qty' type='text' class='form-control' name='stock_search'></th>
+              <th class='col-sm-1'><button ng_click='buyStocks(buy_qty)' type='submit' class='btn btn-default'>Buy</button></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
