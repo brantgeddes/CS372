@@ -45,7 +45,8 @@ Add any files or file extensions that you don't want pushed to this repository
 
 List of SQL commands to setup project tables:
 
-CREATE TABLE Users (id INT AUTO_INCREMENT, email VARCHAR(30), password VARCHAR(100), username VARCHAR(30), PRIMARY KEY(id));
+CREATE TABLE Users (id INT AUTO_INCREMENT, email VARCHAR(30), password VARCHAR(255), username VARCHAR(30), type VARCHAR(10), balance INT, PRIMARY KEY(id));
+CREATE TABLE Stocks (id INT AUTO_INCREMENT, name VARCHAR(50), symbol VARCHAR(15), PRIMARY KEY(id));
 
 ### tokens.php ###
 
