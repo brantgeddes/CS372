@@ -11,7 +11,7 @@
   
   $HASH_TYPE = 'sha512';
 	$STARTING_BALANCE = 1000;
-  $API_STOCK_ENDPOINT = "https://api.iextrading.com/1.0/stock/market/batch";
+  $API_STOCK_ENDPOINT = "https://api.iextrading.com/1.0/stock/";
 
   session_start();  
 
@@ -35,10 +35,6 @@ function validate($data) {
 	return $data;
 }
 
-//Default values for API:
-//$http_method = 'GET'
-//$api_endpoint = 'https://www.alphavantage.co/query'
-//$data = array('function' => 'TIME_SERIES_DAILY', 'symbol' => 'AAPL', 'outputsize' => 'compact', 'datatype' => 'json', 'apikey' => '37YNWZBM25LC9QHH');
 function call_stock_API($http_method, $api_endpoint, $data) {
   
   $curl = curl_init();
@@ -54,7 +50,7 @@ function call_stock_API($http_method, $api_endpoint, $data) {
       return 0;
       break;
     default:
-      if ($data) $api_endpoint = sprintf("%s?%s", $api_endpoint, http_build_query($data));
+      if ($data) $api_endpoint = $api_endpoint . $data . "/quote";
       break;
   }
   
@@ -64,7 +60,6 @@ function call_stock_API($http_method, $api_endpoint, $data) {
   $result = curl_exec($curl);
 
   curl_close($curl);
-
   return $result;
   
 }
@@ -72,11 +67,11 @@ function call_stock_API($http_method, $api_endpoint, $data) {
 //Returns previous month stock data and current quote
 function get_stock_data($symbol) {
   global $API_STOCK_ENDPOINT; 
-  $data = array('symbols' => $symbol, 'types' => 'quote,chart', 'range' => '1m', 'last' => '5');
+  $data = $symbol;
   $stock_json = call_stock_API('GET', $API_STOCK_ENDPOINT, $data);
   $stock = json_decode($stock_json, true);
   
-  return $stock[strtoupper($symbol)];
+  return $stock;
 }
 
 ?>

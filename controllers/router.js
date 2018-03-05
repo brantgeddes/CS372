@@ -31,7 +31,8 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           url: '/bug-report',
           views: {
             '': {
-              templateUrl: 'views/bug-report.html'
+              templateUrl: 'views/bug-report.html',
+              controller: 'trader'
             },
             'navbar@bug-report': {
               templateUrl: 'views/navbar-view/navbar-user.html',
@@ -50,7 +51,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           views: {
             '': {
               templateUrl: 'views/search.html',
-              controller: 'search'
+              controller: 'trader'
             },
             'navbar@search': {
               templateUrl: 'views/navbar-view/navbar-user.html',
@@ -73,7 +74,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           views: {
             '': {
               templateUrl: 'views/portfolio.html',
-              controller: 'portfolio'
+              controller: 'trader'
             },
             'navbar@portfolio': {
               templateUrl: 'views/navbar-view/navbar-user.html',
@@ -86,14 +87,48 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           views: {
             '': {
               templateUrl: 'views/leaderboard.html',
-              controller: 'leaderboard'
+              controller: 'trader'
             },
             'navbar@leaderboard': {
               templateUrl: 'views/navbar-view/navbar-user.html',
               controller: 'navbar'
             }
           }
-          
+        })
+        .state('chart', {
+          url: '/stock/:symbol',
+           views: {
+             '': {
+               templateUrl: 'views/chart.html',
+               controller: 'chart'
+             }
+           }
+        })
+        .state('admin-stocks', {
+          url: '/stock-list',
+          views: {
+            '': {
+              templateUrl: 'views/admin-stocklist.html',
+              controller: 'admin'
+            },
+            'navbar@admin-stocks': {
+              templateUrl: 'views/navbar-view/navbar-admin.html',
+              controller: 'navbar'
+            }
+          }
+        })
+        .state('admin-bugs', {
+          url: '/bug-list',
+          views: {
+            '': {
+              templateUrl: 'views/admin-buglist.html',
+              controller: 'admin'
+            },
+            'navbar@admin-bugs': {
+              templateUrl: 'views/navbar-view/navbar-admin.html',
+              controller: 'navbar'
+            }
+          }
     });
 
 });

@@ -27,10 +27,11 @@ app.service('user', function($http, $cookieStore, $state) {
       
       if (response.data.valid == "true") {
         $cookieStore.put('user', response.data);
-        $state.transitionTo('portfolio');
-        return true;
+        if (response.data.type == "admin") $state.transitionTo('admin-stocks');
+        if (response.data.type == "trader") $state.transitionTo('portfolio');
       } else {
-        return false;
+        $cookieStore.remove('user');
+        
       }
     });
     
@@ -84,6 +85,10 @@ app.service('user', function($http, $cookieStore, $state) {
     return $cookieStore.get('user');
   }
   
+  this.type = function () {
+    return $cookieStore.get('user').type;
+  }
+  
 }).service('stock', function($rootScope, $http){
   
   var stock_list = [];
@@ -92,19 +97,22 @@ app.service('user', function($http, $cookieStore, $state) {
     
     $http({
       method : 'GET',
-      url : 'routes/find_stocks.php?ticker=' + symbol,
+      url : 'routes/find_stocks.php?name=' + symbol,
       headers : {'Content-Type': 'application/json'}  
     }).then(function (response) {
       log_event("Response from server", response.data);
       stock_list = response.data;
-      console.log(stock_list);
       $rootScope.$broadcast('stock_change', 'true');
     });
     
   }
   
-  this.get = function () {
+  this.get = function (symbol) {
     return stock_list;
+  }
+  
+  this.get_1m = function (symbol) {
+    
   }
   
   this.buy = function (symbol, buy_qty) {

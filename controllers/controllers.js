@@ -3,9 +3,9 @@
 app.controller('auth', function ($scope, $state, user) {
   
   if (user.authenticate('trader')) $state.transitionTo('portfolio');  
-  if (user.authenticate('admin')) $state.transitionTo('stock-list');  
+  if (user.authenticate('admin')) $state.transitionTo('admin-stocks');  
   
-}).controller('login', function ($scope, user) {
+}).controller('login', function ($scope, $state, user) {
   
   $scope.submitLogin = function () {
     
@@ -71,29 +71,80 @@ app.controller('auth', function ($scope, $state, user) {
     }
   }
 
-}).controller('bug-report', function ($state, user) {
+}).controller('trader', function ($state, user) {
   
   if (!user.authenticate('trader')) $state.transitionTo('login');
   
-}).controller('search', function ($state, user) {
+}).controller('admin', function ($state, user) {
   
-  if (!user.authenticate('trader')) $state.transitionTo('login');
+  if (!user.authenticate('admin')) $state.transitionTo('login');
   
 }).controller('stock-search', function ($scope, stock) {
   
   $scope.search_flag = false;
   
   $scope.searchStocks = function (){
-    stock.search($scope.stock_ticker);
+    stock.search($scope.stock_symbol);
     
   }
 
-}).controller('stock-list', function ($scope, stock) {
+}).controller('stock-list', function ($scope, $state, $http, stock) {
+  
+  $scope.load_chart = function (current_symbol) {
+    
+    $state.transitionTo('chart', {symbol: current_symbol});
+    
+  }
   
   $scope.$on('stock_change', function () {
-    console.log(stock.get());
+    
+    var get_string = "";
+    var url = "";
+    var i = 0;
+    
     $scope.stocks = stock.get();
-    $scope.search_flag = true;
+    while ((i < 99) && $scope.stocks[i]) {
+      get_string += $scope.stocks[i].symbol + ",";
+      i++;
+    }
+    
+    /*
+    
+    $scope.stocks.forEach(function (stock) {
+      get_string += stock.symbol + ",";
+      if (i < 99) i++; else break;
+    });
+    */
+    if (get_string) {
+    url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + get_string + '&types=quote';
+    
+    $http({
+      method : 'GET',
+      url : url,
+      headers : {'Content-Type': 'application/json'}  
+    }).then(function (response) {
+      var return_stocks = $scope.stocks;
+      
+      $scope.stocks = [];
+      
+      return_stocks.forEach(function (stock) {
+        
+        if (response.data[stock.symbol].quote) {
+          $scope.stocks.push({
+            symbol: response.data[stock.symbol].quote.symbol,
+            name: response.data[stock.symbol].quote.companyName,
+            value: response.data[stock.symbol].quote.close,
+            change: response.data[stock.symbol].quote.close - response.data[stock.symbol].quote.open,
+            pchange: 100* ((response.data[stock.symbol].quote.close - response.data[stock.symbol].quote.open)/response.data[stock.symbol].quote.open)
+          });
+        }
+        
+      });
+    });
+      $scope.search_flag = true;
+    } else {
+      $scope.search_flag = false;
+    }
   });
   
   $scope.buyStocks = function (buy_qty){
@@ -101,19 +152,18 @@ app.controller('auth', function ($scope, $state, user) {
     
   }
   
-}).controller('portfolio', function ($state, user) {
- 
-  if (!user.authenticate('trader')) $state.transitionTo('login');
-  
-  
-}).controller('leaderboard', function ($state, user) {
-  
-  if (!user.authenticate('trader')) $state.transitionTo('login');
-  
 }).controller('navbar', function ($scope, user) {
   
   $scope.logout = function () {
     user.logout();
   }
+  
+}).controller('bug-report', function () {
+  
+}).controller('chart', function ($scope, $state, $stateParams, user) {
+  
+  if (!user.authenticate('trader')) $state.transitionTo('login');
+
+  $scope.symbol = $stateParams.symbol;
   
 });
