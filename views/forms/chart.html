@@ -1,0 +1,38 @@
+
+<div class='panel panel-primary'>
+  <div class='panel-heading'>Stock Information:</div>
+  <div class='panel-body'>
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+  </div>
+  <div class='panel-footer'>
+    <div class="form-group" ng-init='chart_length=$scope.ref'>
+      <div class='col-sm-1'>
+        <label>
+          <input type='radio' ng-checked="ref == '1m'" value='1m' name='chart-length' ng-model='chart_length' ng-change="change_ref(symbol, '1m')" />
+          1M
+        </label>
+      </div>
+      <div class='col-sm-1'>
+        <label>
+          <input type='radio' ng-checked="ref == '6m'" value='6m' name='chart-length' ng-model='chart_length' ng-change="change_ref(symbol, '6m')" />
+          6M
+        </label>
+      </div>
+      <div class='col-sm-1'>
+        <label>
+          <input type='radio' ng-checked="ref == '1y'" value='1y' name='chart-length' ng-model='chart_length' ng-change="change_ref(symbol, '1y')" />
+          1Y
+        </label>
+      </div>
+      <div class='col-sm-1'>
+        <label>
+          <input type='radio' ng-checked="ref == '5y'" value='5y' name='chart-length' ng-model='chart_length' ng-change="change_ref(symbol, '5y')" />
+          5Y
+        </label>
+      </div>
+      <div class='col-sm-8'>
+        
+      </div>
+    </div>
+  </div>
+</div>

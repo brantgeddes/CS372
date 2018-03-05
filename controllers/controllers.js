@@ -81,8 +81,6 @@ app.controller('auth', function ($scope, $state, user) {
   
 }).controller('stock-search', function ($scope, stock) {
   
-  $scope.search_flag = false;
-  
   $scope.searchStocks = function (){
     stock.search($scope.stock_symbol);
     
@@ -92,7 +90,7 @@ app.controller('auth', function ($scope, $state, user) {
   
   $scope.load_chart = function (current_symbol) {
     
-    $state.transitionTo('chart', {symbol: current_symbol});
+    $state.transitionTo('stock-info', {symbol: current_symbol, ref: '1y'});
     
   }
   
@@ -118,33 +116,30 @@ app.controller('auth', function ($scope, $state, user) {
     if (get_string) {
     url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + get_string + '&types=quote';
     
-    $http({
-      method : 'GET',
-      url : url,
-      headers : {'Content-Type': 'application/json'}  
-    }).then(function (response) {
-      var return_stocks = $scope.stocks;
-      
-      $scope.stocks = [];
-      
-      return_stocks.forEach(function (stock) {
-        
-        if (response.data[stock.symbol].quote) {
-          $scope.stocks.push({
-            symbol: response.data[stock.symbol].quote.symbol,
-            name: response.data[stock.symbol].quote.companyName,
-            value: response.data[stock.symbol].quote.close,
-            change: response.data[stock.symbol].quote.close - response.data[stock.symbol].quote.open,
-            pchange: 100* ((response.data[stock.symbol].quote.close - response.data[stock.symbol].quote.open)/response.data[stock.symbol].quote.open)
-          });
-        }
-        
-      });
-    });
-      $scope.search_flag = true;
-    } else {
-      $scope.search_flag = false;
-    }
+			$http({
+				method : 'GET',
+				url : url,
+				headers : {'Content-Type': 'application/json'}  
+			}).then(function (response) {
+				var return_stocks = $scope.stocks;
+
+				$scope.stocks = [];
+
+				return_stocks.forEach(function (stock) {
+
+					if (response.data[stock.symbol].quote) {
+						$scope.stocks.push({
+							symbol: response.data[stock.symbol].quote.symbol,
+							name: response.data[stock.symbol].quote.companyName,
+							value: response.data[stock.symbol].quote.close,
+							change: response.data[stock.symbol].quote.close - response.data[stock.symbol].quote.open,
+							pchange: 100* ((response.data[stock.symbol].quote.close - response.data[stock.symbol].quote.open)/response.data[stock.symbol].quote.open)
+						});
+					}
+
+				});
+			});
+		}
   });
   
   $scope.buyStocks = function (buy_qty){
@@ -160,10 +155,91 @@ app.controller('auth', function ($scope, $state, user) {
   
 }).controller('bug-report', function () {
   
-}).controller('chart', function ($scope, $state, $stateParams, user) {
+}).controller('chart', function ($scope, $http, $state, $stateParams, user) {
   
-  if (!user.authenticate('trader')) $state.transitionTo('login');
-
   $scope.symbol = $stateParams.symbol;
+  $scope.ref = $stateParams.ref;
+		
+	$scope.change_ref = function (symbol, ref) {
+		$state.transitionTo('stock-info', {symbol: symbol, ref: ref}, {
+			location: true,
+			inherit: true,
+			relative: $state.$current,
+			notify: false
+		})
+		$scope.draw_chart(symbol, ref);
+	}
+	
+	$scope.draw_chart = function (symbol, ref) {
+		var url = 'https://api.iextrading.com/1.0/stock/' + symbol + '/chart/' + ref;
+		$http({
+			method : 'GET',
+			url : url,
+			headers : {'Content-Type': 'application/json'}  
+		}).then(function (response) {
+			var stock_high = [];
+			var stock_close = [];
+			for (var i = 0; response.data[i]; i++) {
+				stock_high.push({
+					label: response.data[i].date,
+					y: response.data[i].high
+				});
+				stock_close.push({
+					label: response.data[i].date,
+					y: response.data[i].close
+				});
+			}
+
+			var chart = new CanvasJS.Chart("chartContainer", {
+				theme: "light1",
+				title: {
+					text: $scope.symbol
+				},
+				axisY: {
+					labelFontSize: 20,
+					labelFontColor: "dimGrey"
+				},
+				axisX: {
+					labelAngle: -30
+				},
+				data: [{
+					type: "line",
+					label: 'High',
+					dataPoints: stock_high
+				},
+				{
+					type: "line",
+					label: 'Close',
+					dataPoints: stock_close
+				}]
+			});
+			chart.render();
+		});
+		
+	}
+	
+	$scope.draw_chart($scope.symbol, $scope.ref);
   
+}).controller('stock-info', function ($scope, $http, $stateParams) {
+	$scope.symbol = $stateParams.symbol;
+	var url = 'https://api.iextrading.com/1.0/stock/' + $scope.symbol + '/quote';
+	
+	$http({
+		method : 'GET',
+		url : url,
+		headers : {'Content-Type': 'application/json'}  
+	}).then(function (response) {
+		
+		$scope.stock = {
+			symbol: response.data.symbol,
+			name: response.data.companyName,
+			value: response.data.close,
+			change: (response.data.close - response.data.open),
+			pchange: (100 * ((response.data.close - response.data.open) / response.data.open))
+		}
+		
+	});
 });
+
+
+

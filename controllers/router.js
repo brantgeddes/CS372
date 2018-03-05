@@ -95,12 +95,20 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             }
           }
         })
-        .state('chart', {
-          url: '/stock/:symbol',
+        .state('stock-info', {
+          url: '/stock/:symbol/:ref',
            views: {
              '': {
-               templateUrl: 'views/chart.html',
+               templateUrl: 'views/stock-info.html',
+               controller: 'trader'
+             },
+             'chart@stock-info': {
+               templateUrl: 'views/forms/chart.html',
                controller: 'chart'
+             },
+             'stock-table@stock-info': {
+               templateUrl: 'views/forms/stock-table.html',
+               controller: 'stock-info'
              }
            }
         })
