@@ -15,52 +15,57 @@ if ($_SESSION['login']) {
           $conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
           
           $sql = "SELECT id FROM Stocks WHERE symbol='" . $data->symbol . "';";
-          $stock_id = $conn->query($sql)->fetch_assoc();
-          $stock_id = $stock_id['id'];
+          if ($stock_id = $conn->query($sql)->fetch_assoc()) {
+            $stock_id = $stock_id['id'];
 
-          $sql = "SELECT quantity, COUNT(*) AS count FROM Portfolio WHERE user_id='" . $_SESSION['id'] . "' AND stock_id='" . $stock_id . "';";
-          $stock_exists = $conn->query($sql)->fetch_assoc();
-          $quantity = $stock_exists['quantity'];
-          $stock_exists = $stock_exists['count'];
-                    
-          if ($stock_exists == 0) {
-            $sql = "INSERT INTO Portfolio 
-            (user_id, stock_id, quantity) 
-            VALUES 
-            ( " . $_SESSION['id'] . ", " . $stock_id . ", '" . $data->quantity . "')";
+            $sql = "SELECT quantity, COUNT(*) AS count FROM Portfolio WHERE user_id=" . $_SESSION['id'] . " AND stock_id=" . $stock_id . ";";
+            if ($stock_exists = $conn->query($sql)->fetch_assoc()) {
+              $quantity = $stock_exists['quantity'];
+              $stock_exists = $stock_exists['count'];
 
-            if ($conn->query($sql)) {
-              $_SESSION['balance'] = $_SESSION['balance'] - $data->quantity * $data->value;
-              $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
-              $conn->query($sql);
-            }
-            else {
+              if ($stock_exists == 0) {
+                $sql = "INSERT INTO Portfolio 
+                (user_id, stock_id, quantity) 
+                VALUES 
+                ( " . $_SESSION['id'] . ", " . $stock_id . ", '" . $data->quantity . "')";
+
+                if ($conn->query($sql)) {
+                  $_SESSION['balance'] = $_SESSION['balance'] - $data->quantity * $data->value;
+                  $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
+                  $conn->query($sql);
+                }
+                else {
+                  echo json_encode(array('error' => "true", 'type' => 'database', 'message' => 'database error'));
+                }
+              } elseif ($stock_exists == 1) {
+
+                $quantity = $quantity + $data->quantity;
+
+                $sql = "UPDATE Portfolio SET
+                quantity=" . $quantity . "
+                WHERE
+                user_id=" . $_SESSION['id'] . " AND stock_id=" . $stock_id . ";";
+
+                if ($conn->query($sql)) {
+                  $_SESSION['balance'] = $_SESSION['balance'] - $data->quantity * $data->value;
+                  $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
+                  $conn->query($sql);
+                }
+                else {
+                  echo json_encode(array('error' => "true", 'type' => 'database', 'message' => 'database error'));
+                }
+
+              } else {
+                echo json_encode(array('error' => "true", 'type' => 'internal', 'message' => 'internal logic error'));
+              }
+
+              mysqli_close($conn);
+            } else {
               echo json_encode(array('error' => "true", 'type' => 'database', 'message' => 'database error'));
             }
-          } elseif ($stock_exists == 1) {
-            
-            $quantity = $quantity + $data->quantity;
-            
-            $sql = "UPDATE Portfolio SET
-            quantity=" . $quantity . "
-            WHERE
-            user_id=" . $_SESSION['id'] . " AND stock_id=" . $stock_id . ";";
-
-            if ($conn->query($sql)) {
-              $_SESSION['balance'] = $_SESSION['balance'] - $data->quantity * $data->value;
-              $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
-              $conn->query($sql);
-            }
-            else {
-              echo json_encode(array('error' => "true", 'type' => 'database', 'message' => 'database error'));
-            }
-            
           } else {
-            echo json_encode(array('error' => "true", 'type' => 'internal', 'message' => 'internal logic error'));
+            echo json_encode(array('error' => "true", 'type' => 'database', 'message' => 'database error'));
           }
-          
-          mysqli_close($conn);
-          
         } else {
           echo json_encode(array('error' => "true", 'type' => 'transaction', 'message' => 'insufficient funds'));
         }
