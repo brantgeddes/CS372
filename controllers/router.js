@@ -102,6 +102,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
                templateUrl: 'views/stock-info.html',
                controller: 'trader'
              },
+             'navbar@stock-info': {
+              templateUrl: 'views/navbar-view/navbar-user.html',
+              controller: 'navbar'
+            },
              'chart@stock-info': {
                templateUrl: 'views/forms/chart.html',
                controller: 'chart'
