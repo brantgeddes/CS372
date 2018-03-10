@@ -35,6 +35,15 @@ function validate($data) {
 	return $data;
 }
 
+function login($id, $email, $username, $type, $balance) {
+	$_SESSION['login'] = true;
+	$_SESSION['id'] = $id;
+	$_SESSION['email'] = $email;
+	$_SESSION['username'] = $username;
+	$_SESSION['type'] = $type;
+	$_SESSION['balance'] = $balance;	
+}
+
 function call_stock_API($http_method, $api_endpoint, $data) {
   
   $curl = curl_init();
@@ -64,11 +73,10 @@ function call_stock_API($http_method, $api_endpoint, $data) {
   
 }
 
-//Returns previous month stock data and current quote
+//Returns stock quote
 function get_stock_data($symbol) {
   global $API_STOCK_ENDPOINT; 
-  $data = $symbol;
-  $stock_json = call_stock_API('GET', $API_STOCK_ENDPOINT, $data);
+  $stock_json = call_stock_API('GET', $API_STOCK_ENDPOINT, $symbol);
   $stock = json_decode($stock_json, true);
   
   return $stock;

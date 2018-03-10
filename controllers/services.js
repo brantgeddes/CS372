@@ -38,22 +38,15 @@ app.service('user', function($http, $cookieStore, $state) {
   }
   
   this.logout = function () {
-    user = $cookieStore.get('user');
     
     $http({
-      method : 'POST',
+      method : 'GET',
       url : 'routes/logout.php',
-      data: user,
       headers : {'Content-Type': 'application/json'}  
 
     }).then(function (response) {
-      log_event("Response from server", response.data);
-      if (response.data === "success") {
-        $cookieStore.remove('user');
-        $state.transitionTo('login');
-      } else {
-        
-      }
+      $cookieStore.remove('user');
+      $state.transitionTo('login');
     });
     
   }

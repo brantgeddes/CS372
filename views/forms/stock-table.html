@@ -1,25 +1,42 @@
 
 <div class='panel panel-primary'>
-      <div class='panel-body'>
-        <table class='table table-striped'>
-          <thead>
-            <tr>
-              <th class='col-sm-2 text-left'>Ticker</th>
-              <th class='col-sm-4 text-left'>Name</th>
-              <th class='col-sm-2 text-center'>Value</th>
-              <th class='col-sm-2 text-center'>Absolute Change</th>
-              <th class='col-sm-3 text-center'>Percent Change</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th class='col-sm-1 text-left'>{{stock.symbol | uppercase}}</th>
-              <th class='col-sm-4 text-left'>{{stock.name}}</th>
-              <th class='col-sm-2 text-center'>{{stock.value | currency}}</th>
-              <th class='col-sm-2 text-center'>{{stock.change | currency}}</th>
-              <th class='col-sm-3 text-center'>{{stock.pchange | number: 2}}%</th>
-            </tr>
-          </tbody>
-        </table>
+  <div class='panel-body'>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th class='col-sm-2 text-left'>Ticker</th>
+          <th class='col-sm-4 text-left'>Name</th>
+          <th class='col-sm-2 text-center'>Value</th>
+          <th class='col-sm-2 text-center'>Absolute Change</th>
+          <th class='col-sm-3 text-center'>Percent Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class='col-sm-1 text-left'>{{stock.symbol | uppercase}}</th>
+          <th class='col-sm-4 text-left'>{{stock.name}}</th>
+          <th class='col-sm-2 text-center'>{{stock.value | currency}}</th>
+          <th class='col-sm-2 text-center'>{{stock.change | currency}}</th>
+          <th class='col-sm-3 text-center'>{{stock.pchange | number: 2}}%</th>
+        </tr>  
+      </tbody>
+    </table>
+  </div>
+  <div class='panel-footer'>
+    <form class='row form-horizontal'>
+      
+      <label class='col-sm-1 align-middle'>Quantity:</label>
+      <div class='col-sm-1'><input ng-model='quantity' ng-init='quantity=1' class='form-control input-sm' type='text' /></div>
+      <label class='col-sm-1'>Total:</label>
+      <div class='col-sm-1'>{{stock.value * quantity}}</div>
+      <div class='col-sm-2'></div>
+      <div class='col-sm-1'>
+        <select ng-model='transaction_type' ng-init="transaction_type='Buy'">
+        <option>Buy</option>
+        <option>Sell</option>
+        </select>
       </div>
-    </div>
+      <div class='col-sm-1'><button ng-click='transaction(stock.symbol, quantity, stock.value, transaction_type)'>Submit</button></div>
+    </form>
+  </div>
+</div>

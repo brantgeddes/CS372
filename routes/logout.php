@@ -1,6 +1,10 @@
 <?php
 
+include 'includes.php';
 
-echo "success";
+session_unset();
+session_destroy();
+
+echo "Logout success";
 
 ?>

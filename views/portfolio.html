@@ -1,5 +1,18 @@
 
+<link rel='stylesheet' type='text/css' href='views/margins.css'>
 
 <div ui-view='navbar'></div>
-
-<div ui-view='user-info'></div>
+<div class='row top-30'>
+  <div class='col-sm-1'></div>
+  <div class='col-sm-3'>
+    <div ui-view='user-info'></div>
+  </div>
+  <div class='col-sm-8'></div>
+</div>
+<div class='row top-20'>
+  <div class='col-sm-1'></div>
+  <div class='col-sm-10'>
+    <div ui-view='user-stocks'></div>
+  </div>
+  <div class='col-sm-1'></div>
+</div>

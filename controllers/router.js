@@ -76,6 +76,14 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
               templateUrl: 'views/portfolio.html',
               controller: 'trader'
             },
+            'user-info@portfolio': {
+              templateUrl: 'views/forms/user-info.html',
+              controller: 'user-info'
+            },
+            'user-stocks@portfolio': {
+              templateUrl: 'views/forms/user-stocks.html',
+              controller: 'user-stocks'
+            },
             'navbar@portfolio': {
               templateUrl: 'views/navbar-view/navbar-user.html',
               controller: 'navbar'

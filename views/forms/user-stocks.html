@@ -1,14 +1,15 @@
 
-<div class='panel panel-primary'>
-      <div class='panel-body'>
-        <table class='table table-striped'>
+<div class="panel panel-primary">
+  <div class='panel-heading'>Stocks:</div>  
+  <div class='panel-body'>
+    <table class='table table-striped'>
           <thead>
             <tr>
               <th class='col-sm-1 text-left'>Ticker</th>
               <th class='col-sm-5 text-left'>Name</th>
               <th class='col-sm-2 text-center'>Value</th>
-              <th class='col-sm-2 text-center'>Absolute Change</th>
-              <th class='col-sm-2 text-center'>Percent Change</th>
+              <th class='col-sm-2 text-center'>Quantity</th>
+              <th class='col-sm-2 text-center'></th>
             </tr>
           </thead>
           <tbody>
@@ -16,10 +17,10 @@
               <th class='col-sm-1 text-left'>{{stock.symbol | uppercase}}</th>
               <th class='col-sm-5 text-left'>{{stock.name}}</th>
               <th class='col-sm-2 text-center'>{{stock.value | currency}}</th>
-              <th class='col-sm-2 text-center'>{{stock.change | currency}}</th>
-              <th class='col-sm-2 text-center'>{{stock.pchange | number: 2}}%</th>
+              <th class='col-sm-2 text-center'>{{stock.quantity}}</th>
+              <th class='col-sm-2 text-center'></th>
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
+  </div>
+</div>
