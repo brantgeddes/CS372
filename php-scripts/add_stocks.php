@@ -1,11 +1,6 @@
 <?php
 
-	#include "../routes/includes.php";
-
-	$DBServerName = 'localhost';
-	$DBUserName = 'pi';
-	$DBPassword = 'raspberry';
-	$DBName = 'test';
+	include "../routes/includes.php";
 	
 	$curl = curl_init();
 	$api_endpoint = 'https://api.iextrading.com/1.0/ref-data/symbols';
