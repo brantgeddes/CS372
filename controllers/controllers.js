@@ -142,7 +142,7 @@ app.controller('auth', function ($scope, $state, user) {
 						$scope.stocks.push({
 							symbol: response.data[stock.symbol].quote.symbol,
 							name: response.data[stock.symbol].quote.companyName,
-							value: response.data[stock.symbol].quote.close,
+							value: response.data[stock.symbol].quote.latestPrice,
 							change: response.data[stock.symbol].quote.change,
 							pchange: 100 * response.data[stock.symbol].quote.changePercent
 						});
@@ -294,7 +294,7 @@ app.controller('auth', function ($scope, $state, user) {
 		$scope.stock = {
 			symbol: response.data.symbol,
 			name: response.data.companyName,
-			value: response.data.close,
+			value: response.data.latestPrice,
 			change: response.data.change,
 			pchange: 100 * response.data.changePercent
 		}
@@ -364,7 +364,7 @@ app.controller('auth', function ($scope, $state, user) {
 						symbol: response.data[stock.symbol].quote.symbol,
 						name: response.data[stock.symbol].quote.companyName,
 						quantity: stock.quantity,
-						value: response.data[stock.symbol].quote.close
+						value: response.data[stock.symbol].quote.latestPrice
 					});
 				});
 				

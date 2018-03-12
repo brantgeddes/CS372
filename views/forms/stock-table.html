@@ -28,7 +28,7 @@
       <label class='col-sm-1 align-middle'>Quantity:</label>
       <div class='col-sm-1'><input ng-model='quantity' ng-init='quantity=1' class='form-control input-sm' type='text' /></div>
       <label class='col-sm-1'>Total:</label>
-      <div class='col-sm-1'>{{stock.value * quantity}}</div>
+      <div class='col-sm-1'>{{stock.value * quantity | number: 2}}</div>
       <div class='col-sm-2'></div>
       <div class='col-sm-1'>
         <select ng-model='transaction_type' ng-init="transaction_type='Buy'">
