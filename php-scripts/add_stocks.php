@@ -1,50 +1,53 @@
 <?php
-
+	$start = microtime(true);
 	include "../routes/includes.php";
 	
 	$curl = curl_init();
 	$api_endpoint = 'https://api.iextrading.com/1.0/ref-data/symbols';
-	
 	curl_setopt($curl, CURLOPT_URL, $api_endpoint);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	
 	$result = curl_exec($curl);
-
-	curl_close($curl);
-
 	$result = json_decode($result);
 	
 	$conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
-	
 	foreach ($result as $stock) 
 	{
-		if ($stock->{"isEnabled"} == true and $stock->{"name"}!="") 
+		if (is_object($stock))
 		{
-			$curl = curl_init();
-			$api_endpoint = 'https://api.iextrading.com/1.0/stock/'.$stock->{"symbol"}.'/company';     
-  
-			curl_setopt($curl, CURLOPT_URL, $api_endpoint);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-			$result2 = curl_exec($curl);
-
-			curl_close($curl);
-			
-			$result2 = json_decode($result2);
-			
-			if ($result2->{"sector"}!="" and $result2->{"industry"}!="")
+			if ($stock->{"isEnabled"} == true and $stock->{"name"}!=""and $stock->{"symbol"}!="") 
 			{
-				$sql = "INSERT INTO Stocks (symbol, name, sector, industry) VALUES ('" . $stock->{"symbol"} . "', '" . $stock->{"name"} . "', '" . $result2->{"sector"} . "', '" . $result2->{"industry"} . "');";
-				if ($conn->query($sql))
+				#$api_endpoint = 'https://api.iextrading.com/1.0/stock/market/batch?symbols='.$stock->{"symbol"}.'&types=company';     
+				$api_endpoint = 'https://api.iextrading.com/1.0/stock/'.$stock->{"symbol"}.'/batch?types=company';
+				curl_setopt($curl, CURLOPT_URL, $api_endpoint);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+				$result2 = curl_exec($curl);
+				$result2 = json_decode($result2);
+				
+				foreach ($result2 as $stock2) 
 				{
-					
-				} 
-				else 
-				{
-					echo "Insert Failed\n";
-				}
+					if (is_object($stock2))
+					{
+						if ($stock2->{"sector"}!="" and $stock2->{"industry"}!=""and $stock2->{"symbol"}!=""and $stock2->{"companyName"}!="")
+						{
+							$sql = "INSERT INTO Stocks (symbol, name, sector, industry, enable) VALUES ('" . $stock2->{"symbol"} . "', '" . $stock2->{"companyName"} . "', '" . $stock2->{"sector"} . "', '" . $stock2->{"industry"} . "',1);";
+							if ($conn->query($sql))
+							{
+							} 
+							else 
+							{
+								#echo "Insert Failed\n";
+							}
+						}
+					}
+				}	
 			}
 		}
 	}
 	mysqli_close($conn);
+	curl_close($curl);
+	$end = microtime(true);
+	$execute = ($end - $start)/60;
+	echo $execute . "mins\n";
 ?>
