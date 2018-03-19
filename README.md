@@ -47,7 +47,7 @@ List of SQL commands to setup project tables:
 
 CREATE TABLE Users (id INT AUTO_INCREMENT, email VARCHAR(30), password VARCHAR(255), username VARCHAR(30), type VARCHAR(10), balance INT, PRIMARY KEY(id));
 CREATE TABLE Stocks (id INT AUTO_INCREMENT NOT NULL UNIQUE, name VARCHAR(50) NOT NULL, symbol VARCHAR(15) NOT NULL UNIQUE, sector VARCHAR(255) NOT NULL, industry VARCHAR(255) NOT NULL, enable BOOLEAN NOT NULL DEFAULT TRUE, PRIMARY KEY(id));CREATE TABLE Portfolio (id INT AUTO_INCREMENT, user_id INT, stock_id INT, PRIMARY KEY(id), FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(stock_id) REFERENCES Stocks(id));
-CREATE TABLE Portfolio (id INT AUTO_INCREMENT, user_id INT, stock_id INT, PRIMARY KEY(id), FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(stock_id) REFERENCES Stocks(id));
+CREATE TABLE Portfolio (id INT AUTO_INCREMENT, user_id INT, stock_id INT, quantity INT, PRIMARY KEY(id), FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(stock_id) REFERENCES Stocks(id));
 
 ### tokens.php ###
 
