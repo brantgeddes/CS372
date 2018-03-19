@@ -134,6 +134,14 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             'navbar@admin-stocks': {
               templateUrl: 'views/navbar-view/navbar-admin.html',
               controller: 'navbar'
+            },
+            'search-form@admin-stocks': {
+              templateUrl: 'views/forms/search-form.html',
+              controller: 'stock-search'
+            },
+            'adminstocks-form@admin-stocks': {
+              templateUrl: 'views/forms/adminstocks-form.html',
+              controller: 'stock-list'
             }
           }
         })

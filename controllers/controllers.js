@@ -134,7 +134,7 @@ app.controller('auth', function ($scope, $state, user) {
 			}).then(function (response) {
 				var return_stocks = $scope.stocks;
 
-				$scope.stocks = [];
+				//$scope.stocks = [];
 
 				return_stocks.forEach(function (stock) {
 
@@ -144,7 +144,8 @@ app.controller('auth', function ($scope, $state, user) {
 							name: response.data[stock.symbol].quote.companyName,
 							value: response.data[stock.symbol].quote.latestPrice,
 							change: response.data[stock.symbol].quote.change,
-							pchange: 100 * response.data[stock.symbol].quote.changePercent
+							pchange: 100 * response.data[stock.symbol].quote.changePercent,
+							//enable: return_stocks.enable[stock.symbol]
 						});
 					}
 
