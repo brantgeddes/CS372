@@ -77,7 +77,7 @@ app.controller('auth', function ($scope, $state, user) {
   
 	var url = 'routes/authentication.php';
 	$http({
-		method : 'GET',
+		method : 'POST',
 		url : url,
 		headers : {'Content-Type': 'application/json'}  
 	}).then(function (response) {

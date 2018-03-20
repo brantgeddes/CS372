@@ -3,12 +3,30 @@
 include 'includes.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'POST') {
+
+  $str_json = file_get_contents('php://input');
+  $data = json_decode($str_json);
+  
+  $data->email = validate($data->email);
+  $data->password = validate($data->password);
+  
+  $user = new User($data->email, $data->password);
+  
+  echo json_encode($user->authenticate());
+  
+  
+}
+
+/*
+$method = $_SERVER['REQUEST_METHOD'];
 if ($_SESSION['login']) {
   echo json_encode(array('valid' => 'true', 'email' => $_SESSION['email'], 'username' => $_SESSION["username"], 'type' => $_SESSION["type"], 'balance' => $_SESSION["balance"]));
 } else {
 
   if ($method === 'POST') {
-
+    
     $conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
 
     $str_json = file_get_contents('php://input');
@@ -36,5 +54,5 @@ if ($_SESSION['login']) {
  
 }
 
-
+*/
 ?>

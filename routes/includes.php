@@ -4,7 +4,10 @@
 
   //This contains password information for db
   include 'tokens.php';
-
+	include 'classes/User.php';
+	include 'classes/Stock.php';
+	include 'classes/Transaction.php';
+	include 'classes/Market.php';
   ////////////////////////////////////////////////////////////
   ///////////////DEV MODE////////////////////////////////////
   $dev_mode = true;  //Comment for production mode

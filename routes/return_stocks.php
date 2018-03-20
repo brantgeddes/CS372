@@ -10,7 +10,7 @@ if ($_SESSION['login']) {
 
     $sql = "SELECT Stocks.symbol, Portfolio.quantity FROM Portfolio 
     INNER JOIN Stocks ON Stocks.id = Portfolio.stock_id
-    WHERE Portfolio.user_id=" . $_SESSION['id'] . ";";
+    WHERE Portfolio.user_id='" . $_SESSION['id'] . "';";
     
     $result = $conn->query($sql);
     $response = array();
