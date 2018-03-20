@@ -10,10 +10,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat='stock in stocks'>
+            <tr ng-click='toggle_stock(stock)' ng-repeat='stock in stocks'>
               <th class='col-sm-1 text-left'>{{stock.symbol | uppercase}}</th>
               <th class='col-sm-5 text-left'>{{stock.name}}</th>
-              <th class='col-sm-2 text-center'>{{stock.enable}}</th>
+              <th class='col-sm-2 text-center'>{{stock.enable | uppercase}}</th>
             </tr>
           </tbody>
         </table>

@@ -105,6 +105,22 @@ app.controller('auth', function ($scope, $state, user) {
     
   }
   
+	$scope.toggle_stock = function (stock) {
+	
+		var url = "test.php?symbol=" + stock.symbol;
+		$http({
+				method : 'GET',
+				url : url,
+				headers : {'Content-Type': 'application/json'}  
+			}).then(function (response) {
+				$scope.stocks.find(function (curr) {
+					return (curr.symbol == stock.symbol);
+				}).enable = response.data.enable
+					
+		});
+		
+	}
+	
   $scope.$on('stock_change', function () {
     
     var get_string = "";
@@ -134,7 +150,7 @@ app.controller('auth', function ($scope, $state, user) {
 			}).then(function (response) {
 				var return_stocks = $scope.stocks;
 
-				//$scope.stocks = [];
+				$scope.stocks = [];
 
 				return_stocks.forEach(function (stock) {
 
@@ -145,7 +161,7 @@ app.controller('auth', function ($scope, $state, user) {
 							value: response.data[stock.symbol].quote.latestPrice,
 							change: response.data[stock.symbol].quote.change,
 							pchange: 100 * response.data[stock.symbol].quote.changePercent,
-							//enable: return_stocks.enable[stock.symbol]
+							enable: stock.enable
 						});
 					}
 

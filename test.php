@@ -1,5 +1,5 @@
 <?php
 
-phpinfo();
+echo json_encode(array("enable" => "false"));
 
 ?>
