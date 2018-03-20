@@ -86,10 +86,23 @@ app.controller('auth', function ($scope, $state, user) {
 		$scope.balance = response.data.balance;
 	});
 	
-}).controller('admin', function ($state, user) {
+}).controller('admin', function ($scope, $http, $state, user) {
   
   if (!user.authenticate('admin')) $state.transitionTo('login');
   
+	$scope.import_stocks = function () {
+		
+		var url = 'routes/import_stocks.php';
+		$http({
+			method : 'GET',
+			url : url,
+			headers : {'Content-Type': 'application/json'}  
+		}).then(function (response) {
+			console.log(response.data);
+		});
+		
+	};
+	
 }).controller('stock-search', function ($scope, stock) {
   
   $scope.searchStocks = function (){

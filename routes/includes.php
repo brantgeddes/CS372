@@ -1,4 +1,6 @@
 <?php
+	
+	session_start();  
 
   //This contains password information for db
   include 'tokens.php';
@@ -12,8 +14,6 @@
   $HASH_TYPE = 'sha512';
 	$STARTING_BALANCE = 100000;
   $API_STOCK_ENDPOINT = "https://api.iextrading.com/1.0/stock/";
-
-  session_start();  
 
   $DBServerName = "localhost";
   $DBUserName = $DB_USERNAME;
