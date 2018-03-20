@@ -176,7 +176,22 @@ app.controller('auth', function ($scope, $state, user) {
     user.logout();
   }
   
-}).controller('bug-report', function () {
+}).controller('bug-report', function ($scope, $http) {
+	
+	$scope.submit_report = function (report) {
+		
+		var url = 'test.php';
+		var data = JSON.stringify({report: report});
+		
+		$http({
+			method : 'POST',
+			url : url,
+			data: data,
+			headers : {'Content-Type': 'application/json'}  
+		}).then(function (response) {
+			console.log(response.data);
+		});
+	}
   
 }).controller('chart', function ($scope, $http, $state, $stateParams, user) {
   
