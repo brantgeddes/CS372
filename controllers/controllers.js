@@ -110,7 +110,7 @@ app.controller('auth', function ($scope, $state, user) {
     
   }
 
-}).controller('stock-list', function ($scope, $state, $http, stock) {
+}).controller('stock-list', function ($scope, $state, $http, stock, user) {
   
   $scope.load_chart = function (current_symbol) {
     
@@ -120,7 +120,7 @@ app.controller('auth', function ($scope, $state, user) {
   
 	$scope.toggle_stock = function (stock) {
 	
-		var url = "test.php?symbol=" + stock.symbol;
+		var url = "routes/toggle.php?symbol=" + stock.symbol;
 		$http({
 				method : 'GET',
 				url : url,
@@ -166,8 +166,9 @@ app.controller('auth', function ($scope, $state, user) {
 				$scope.stocks = [];
 
 				return_stocks.forEach(function (stock) {
-
-					if (response.data[stock.symbol].quote) {
+				if (user.authenticate('trader'))
+				{
+					if (response.data[stock.symbol].quote && stock.enable == 'true') {
 						$scope.stocks.push({
 							symbol: response.data[stock.symbol].quote.symbol,
 							name: response.data[stock.symbol].quote.companyName,
@@ -177,7 +178,20 @@ app.controller('auth', function ($scope, $state, user) {
 							enable: stock.enable
 						});
 					}
-
+				}
+				else if (user.authenticate('admin'))
+				{
+					if (response.data[stock.symbol].quote) {
+						$scope.stocks.push({
+						symbol: response.data[stock.symbol].quote.symbol,
+						name: response.data[stock.symbol].quote.companyName,
+						value: response.data[stock.symbol].quote.latestPrice,
+						change: response.data[stock.symbol].quote.change,
+						pchange: 100 * response.data[stock.symbol].quote.changePercent,
+						enable: stock.enable
+					});
+					}
+				}
 				});
 			});
 		}
