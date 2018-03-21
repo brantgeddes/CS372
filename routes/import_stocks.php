@@ -16,10 +16,7 @@ if ($_SESSION['login'] and ($_SESSION['type'] == "admin")) {
 	$result = json_decode($result);
 	
 	$conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
-	echo "asdf";
-	
-	$sql = "DELETE FROM Stocks;";
-	$conn->query($sql);
+	$stock_array = array();
 	
 	foreach ($result as $stock) 
 	{
@@ -41,19 +38,20 @@ if ($_SESSION['login'] and ($_SESSION['type'] == "admin")) {
 					{
 						if ($stock2->{"sector"}!="" and $stock2->{"industry"}!=""and $stock2->{"symbol"}!=""and $stock2->{"companyName"}!="")
 						{
-							$sql = "INSERT INTO Stocks (symbol, name, sector, industry, enable) VALUES ('" . $stock2->{"symbol"} . "', '" . $stock2->{"companyName"} . "', '" . $stock2->{"sector"} . "', '" . $stock2->{"industry"} . "',1);";
-							if ($conn->query($sql))
-							{
-							} 
-							else 
-							{
-								#echo "Insert Failed\n";
-							}
+							$stock_array[] = (object)array("symbol" => $stock2->{"symbol"}, "name" => $stock2->{"companyName"}, "sector" => $stock2->{"sector"}, "industry" => $stock2->{"industry"});
 						}
 					}
 				}	
 			}
 		}
+	}
+	
+	$sql = "DELETE FROM Stocks;";
+	$conn->query($sql);
+	
+	foreach ($stock_array as $stock) {
+		$sql = "INSERT INTO Stocks (symbol, name, sector, industry, enable) VALUES ('" . $stock->{"symbol"} . "', '" . $stock->{"companyName"} . "', '" . $stock->{"sector"} . "', '" . $stock->{"industry"} . "',1);";
+		if ($conn->query($sql)); 
 	}
 	
 	mysqli_close($conn);

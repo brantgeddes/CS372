@@ -11,7 +11,9 @@ if ($method === 'POST') {
   echo json_encode(array("report" => $data->report));
 } else {
   
-  var_dump($_SESSION);
+  $test = new Stock('AAPL');
+  echo "  :  ";
+  var_dump($test);
   
 }
 ?>

@@ -8,6 +8,7 @@
 	include 'classes/Stock.php';
 	include 'classes/Transaction.php';
 	include 'classes/Market.php';
+	include 'classes/App.php';
   ////////////////////////////////////////////////////////////
   ///////////////DEV MODE////////////////////////////////////
   $dev_mode = true;  //Comment for production mode
@@ -15,9 +16,13 @@
   /////////////////////////////////////////////////////////
   
   $HASH_TYPE = 'sha512';
-	$STARTING_BALANCE = 100000;
+	$GLOBALS['STARTING_BALANCE'] = 100000;
   $API_STOCK_ENDPOINT = "https://api.iextrading.com/1.0/stock/";
 
+	$GLOBALS['DB_SERVER'] = "localhost";
+  $GLOBALS['DB_USERNAME'] = $DB_USERNAME;
+  $GLOBALS['DB_PASSWORD'] = $DB_PASSWORD;
+  $GLOBALS['DB_NAME'] = $DB_NAME;
   $DBServerName = "localhost";
   $DBUserName = $DB_USERNAME;
   $DBPassword = $DB_PASSWORD;
