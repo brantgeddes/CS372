@@ -13,13 +13,13 @@
 	switch($row["enable"])
 	{
 		case 1:
-			$sql = "update Stocks set enable = 0 where symbol LIKE '" . $symbol . "%';";
+			$sql = "update Stocks set enable = 0 where symbol = '" . $symbol . "';";
 			$result = $conn->query($sql);
 			$enable = 'false';
 			echo json_encode(array('enable' => $enable));
 			break;
 		case 0:
-			$sql = "update Stocks set enable = 1 where symbol LIKE '" . $symbol . "%';";
+			$sql = "update Stocks set enable = 1 where symbol = '" . $symbol . "';";
 			$result = $conn->query($sql);
 			$enable = 'true';
 			echo json_encode(array('enable' => $enable));
