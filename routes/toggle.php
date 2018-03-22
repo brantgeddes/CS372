@@ -5,7 +5,7 @@
 	
 	$conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
 	
-	$sql = "SELECT enable FROM Stocks WHERE symbol LIKE '" . $symbol . "%';";
+	$sql = "SELECT enable FROM Stocks WHERE symbol = '" . $symbol . "';";
 	
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();

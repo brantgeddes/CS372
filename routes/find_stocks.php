@@ -23,6 +23,7 @@ if ($_SESSION['login']) {
 			$response[] = (object)array('symbol' => $row["symbol"], 'name' => $row["name"], 'enable' => 'true');
 			break;
 		case 0:
+			$response[] = (object)array('symbol' => $row["symbol"], 'name' => $row["name"], 'enable' => 'false');
 			break;
 	}
       #$response[] = (object)array('symbol' => $row["symbol"], 'name' => $row["name"], 'enable' => $row["enable"]);
