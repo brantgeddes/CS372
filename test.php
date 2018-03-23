@@ -12,7 +12,7 @@ if ($method === 'POST') {
 } else {
   
   $user = new User();
-  echo json_encode($user->load(1));
+  echo json_encode($user->load(19));
   $user->login();
   $stock = new Stock("AAPL");
   echo json_encode($stock->load());

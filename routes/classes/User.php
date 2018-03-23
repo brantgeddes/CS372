@@ -159,6 +159,7 @@ class User {
           if ($conn->query($sql)){
             $sql = "SELECT id FROM Users WHERE email='" . $this->email . "';";
             $row = $conn->query($sql)->fetch_assoc();
+            $this->set_id($row['id']);
             $this->set_type('trader');
             $this->set_balance($GLOBALS['STARTING_BALANCE']);
             $this->login();
