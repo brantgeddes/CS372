@@ -2,6 +2,7 @@
 
 class Stock {
   
+  private $id;
   private $symbol;
   private $name;
   private $value;
@@ -19,6 +20,10 @@ class Stock {
   
   public function get() {
     return array('symbol' => $this->symbol, 'name' => $this->name, 'value' => $this->value, 'quantity' => $this->quantity);
+  }
+  
+  public function get_id() {
+    return $this->id;
   }
   
   public function get_symbol() {
@@ -55,17 +60,30 @@ class Stock {
   
   public function load() {
     
-    $curl = curl_init();
-    $api_endpoint = 'https://api.iextrading.com/1.0/stock/' . $this->symbol . '/quote';
-    curl_setopt($curl, CURLOPT_URL, $api_endpoint);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-    $result = curl_exec($curl);
-    $result = json_decode($result);
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
     
-    $this->symbol = $result->{'symbol'};
-    $this->name = $result->{'companyName'};
-    $this->value = $result->{'latestPrice'};
+    $sql = "SELECT id FROM Stocks WHERE symbol = '" . $this->symbol . "';";
+    
+    if ($row = $conn->query($sql)->fetch_assoc()) {
+         
+      $curl = curl_init();
+      $api_endpoint = 'https://api.iextrading.com/1.0/stock/' . $this->symbol . '/quote';
+      curl_setopt($curl, CURLOPT_URL, $api_endpoint);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+      $result = curl_exec($curl);
+      $result = json_decode($result);
+      
+      $this->id = $row['id'];
+      $this->symbol = $result->{'symbol'};
+      $this->name = $result->{'companyName'};
+      $this->value = $result->{'latestPrice'};
+      
+      return array('success' => "true");
+      
+    } else {
+      return array('error' => "true", 'type' => 'database', 'message' => 'database error');
+    }
     
   }
   
