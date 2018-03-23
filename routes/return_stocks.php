@@ -2,15 +2,12 @@
 
 /*
 
-select Stocks.symbol, 
-Stocks.name, 
-sum((quantity) * (case when type = "BUY" then 1 when type = "SELL" then -1 end)) as quantity, 
-sum((value) * (quantity) * (case when type = "BUY" then 1 when type = "SELL" then -1 end)) as value, 
-type 
-from Transactions 
-inner join Stocks on Transactions.stock_id = Stocks.id 
-where user_id = 2 
-group by symbol;
+SELECT Stocks.symbol, 
+SUM((quantity) * (CASE WHEN type = "BUY" THEN 1 WHEN type = "SELL" THEN -1 END)) AS quantity,  
+FROM Transactions 
+INNER JOIN Stocks ON Transactions.stock_id = Stocks.id 
+WHERE user_id = 2 
+GROUP BY symbol;
 
 */
 include 'includes.php';
@@ -19,11 +16,14 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($_SESSION['login']) {
   if ($method === 'GET') {
     
-    $conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
 
-    $sql = "SELECT Stocks.symbol, Portfolio.quantity FROM Portfolio 
-    INNER JOIN Stocks ON Stocks.id = Portfolio.stock_id
-    WHERE Portfolio.user_id='" . $_SESSION['id'] . "';";
+    $sql = "SELECT Stocks.symbol AS symbol, 
+            SUM((quantity) * (CASE WHEN type = 'BUY' THEN 1 WHEN type = 'SELL' THEN -1 END)) AS quantity  
+            FROM Transactions 
+            INNER JOIN Stocks ON Transactions.stock_id = Stocks.id 
+            WHERE user_id = " . $_SESSION['id'] . " 
+            GROUP BY symbol;";
     
     $result = $conn->query($sql);
     $response = array();
