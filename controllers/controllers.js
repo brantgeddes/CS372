@@ -203,11 +203,11 @@ app.controller('auth', function ($scope, $state, user) {
     user.logout();
   }
   
-}).controller('bug-report', function ($scope, $http) {
+}).controller('bug-report', function ($scope, $http, $state) {
 	
 	$scope.submit_report = function (report) {
 		
-		var url = 'test.php';
+		var url = "routes/report.php";
 		var data = JSON.stringify({report: report});
 		
 		$http({
@@ -217,6 +217,7 @@ app.controller('auth', function ($scope, $state, user) {
 			headers : {'Content-Type': 'application/json'}  
 		}).then(function (response) {
 			console.log(response.data);
+			$state.transitionTo('portfolio')
 		});
 	}
   
