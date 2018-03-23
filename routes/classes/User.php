@@ -89,6 +89,29 @@ class User {
     session_destroy();
   }
   
+  public function load($id = null) {
+    
+    if ($id) $this->id = $id; else $this->id = $_SESSION['id'];
+    
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+    $sql = "SELECT email, username, type, balance FROM Users WHERE id = " . $this->id . ";";
+    
+    if($row = $conn->query($sql)->fetch_assoc()) {
+    
+      $this->email = $row['email'];
+      $this->username = $row['username'];
+      $this->type = $row['type'];
+      $this->balance = $row['balance'];
+      
+      return array('success' => "true");
+      
+    } else {
+      return array('error' => "true", 'type' => 'database', 'message' => 'database error');
+    }
+    
+    $conn->close();
+  }
+  
   public function authenticate() {
     
     if ($_SESSION['login']) {

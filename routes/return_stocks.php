@@ -1,5 +1,18 @@
 <?php
 
+/*
+
+select Stocks.symbol, 
+Stocks.name, 
+sum((quantity) * (case when type = "BUY" then 1 when type = "SELL" then -1 end)) as quantity, 
+sum((value) * (quantity) * (case when type = "BUY" then 1 when type = "SELL" then -1 end)) as value, 
+type 
+from Transactions 
+inner join Stocks on Transactions.stock_id = Stocks.id 
+where user_id = 2 
+group by symbol;
+
+*/
 include 'includes.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
