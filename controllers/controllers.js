@@ -393,6 +393,7 @@ app.controller('auth', function ($scope, $state, user) {
 			}).then(function (response) {
 				console.log(response.data);
 		});
+	
 }).controller('user-stocks', function ($scope, $state, $http) {
 	
 	$scope.load_chart = function (current_symbol) {
