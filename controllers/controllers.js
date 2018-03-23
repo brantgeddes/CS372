@@ -112,7 +112,7 @@ app.controller('auth', function ($scope, $state, user) {
 
 }).controller('stock-list', function ($scope, $state, $http, stock, user) {
   
-  $scope.load_chart = function (current_symbol) {
+	$scope.load_chart = function (current_symbol) {
     
     $state.transitionTo('stock-info', {symbol: current_symbol, ref: '1y'});
     
@@ -382,7 +382,17 @@ app.controller('auth', function ($scope, $state, user) {
 
 }).controller('user-info', function ($scope, $http) {
 
-	
+
+}).controller('leaderboard',function($http) {
+
+		var url = "routes/leaderboard.php";
+		$http({
+				method : 'GET',
+				url : url,
+				headers : {'Content-Type': 'application/json'}  
+			}).then(function (response) {
+				console.log(response.data);
+		});
 }).controller('user-stocks', function ($scope, $state, $http) {
 	
 	$scope.load_chart = function (current_symbol) {
@@ -428,6 +438,7 @@ app.controller('auth', function ($scope, $state, user) {
 	});
 	
 });
+
 
 
 

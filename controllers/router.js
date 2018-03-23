@@ -100,6 +100,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             'navbar@leaderboard': {
               templateUrl: 'views/navbar-view/navbar-user.html',
               controller: 'navbar'
+            },
+            'leaderboard-form@leaderboard': {
+              templateUrl: 'views/forms/leaderboard-form.html',
+              controller: 'leaderboard'
             }
           }
         })
