@@ -9,33 +9,34 @@ if ($_SESSION['login']) {
     parse_str($_SERVER['QUERY_STRING'], $query_string);
     $symbol = $query_string['name'];
     validate($symbol);
-    $conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
 
     $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
 
     $result = $conn->query($sql);
+		
     $response = array();
     $i = 0;
     while(($i < 99) && $row = $result->fetch_assoc()){
-	switch($row["enable"])
-	{
-		case 1:
-			$response[] = (object)array('symbol' => $row["symbol"], 'name' => $row["name"], 'enable' => 'true');
-			break;
-		case 0:
-			break;
-	}
+			switch($row["enable"])
+			{
+				case 1:
+					$response[] = (object)array('symbol' => $row["symbol"], 'name' => $row["name"], 'enable' => 'true');
+					break;
+				case 0:
+					break;
+			}
       #$response[] = (object)array('symbol' => $row["symbol"], 'name' => $row["name"], 'enable' => $row["enable"]);
       $i++;
     }
-
+		
     echo json_encode($response);
 
     mysqli_close($conn);
 
 
   } else {
-
+	
   }
 }
 

@@ -50,7 +50,7 @@ if ($_SESSION['login'] and ($_SESSION['type'] == "admin")) {
 	$conn->query($sql);
 	
 	foreach ($stock_array as $stock) {
-		$sql = "INSERT INTO Stocks (symbol, name, sector, industry, enable) VALUES ('" . $stock->{"symbol"} . "', '" . $stock->{"companyName"} . "', '" . $stock->{"sector"} . "', '" . $stock->{"industry"} . "',1);";
+		$sql = "INSERT INTO Stocks (symbol, name, sector, industry, enable) VALUES ('" . $stock->{"symbol"} . "', '" . $stock->{"name"} . "', '" . $stock->{"sector"} . "', '" . $stock->{"industry"} . "',1);";
 		if ($conn->query($sql)); 
 	}
 	

@@ -124,6 +124,4 @@ app.service('user', function($http, $cookieStore, $state) {
    
   }
   
-}).service('market', function () {
-  
 });

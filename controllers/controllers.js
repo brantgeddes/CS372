@@ -146,13 +146,6 @@ app.controller('auth', function ($scope, $state, user) {
       i++;
     }
     
-    /*
-    
-    $scope.stocks.forEach(function (stock) {
-      get_string += stock.symbol + ",";
-      if (i < 99) i++; else break;
-    });
-    */
     if (get_string) {
     	url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + get_string + '&types=quote';
     
@@ -338,7 +331,7 @@ app.controller('auth', function ($scope, $state, user) {
 	});
 	
   
-}).controller('stock-info', function ($scope, $state, $http, $stateParams) {
+}).controller('stock-info', function ($scope, $state, $http, $stateParams, user) {
 	
 	$scope.symbol = $stateParams.symbol;
 	
@@ -378,6 +371,7 @@ app.controller('auth', function ($scope, $state, user) {
 		}).then(function (response) {
 			if (response.data.error) {
 				console.log(response.data);
+				if (response.data.type == "authentication") {user.logout();}
 			} else {
 				$state.transitionTo('portfolio');
 			}

@@ -8,13 +8,15 @@ if ($_SESSION['login']) {
 
     $str_json = file_get_contents('php://input');
     $data = json_decode($str_json);
-    $stock = get_stock_data($data->symbol);
-    if ($data->quantity > 0) {
+    $stock = new Stock($data->symbol, null, null, $data->quantity);
+    $stock->load();
+    
+    if ($stock->get_quantity() > 0) {
       if ($data->type == 'Buy') {
-        if (($data->quantity * $stock['latestPrice']) <= $_SESSION['balance']) {
+        if (($stock->get_quantity() * $stock->get_value()) <= $_SESSION['balance']) {
           $conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
           
-          $sql = "SELECT id FROM Stocks WHERE symbol='" . $data->symbol . "';";
+          $sql = "SELECT id FROM Stocks WHERE symbol='" . $stock->get_symbol() . "';";
           if ($stock_id = $conn->query($sql)->fetch_assoc()) {
             $stock_id = $stock_id['id'];
 
@@ -27,10 +29,10 @@ if ($_SESSION['login']) {
                 $sql = "INSERT INTO Portfolio 
                 (user_id, stock_id, quantity) 
                 VALUES 
-                ( " . $_SESSION['id'] . ", " . $stock_id . ", '" . $data->quantity . "')";
+                ( " . $_SESSION['id'] . ", " . $stock_id . ", '" . $stock->get_quantity() . "')";
 
                 if ($conn->query($sql)) {
-                  $_SESSION['balance'] = $_SESSION['balance'] - $data->quantity * $stock['latestPrice'];
+                  $_SESSION['balance'] = $_SESSION['balance'] - $stock->get_quantity() * $stock->get_value();
                   $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
                   $conn->query($sql);
                 }
@@ -39,7 +41,7 @@ if ($_SESSION['login']) {
                 }
               } elseif ($stock_exists == 1) {
 
-                $quantity = $quantity + $data->quantity;
+                $quantity = $quantity + $stock->get_quantity();
 
                 $sql = "UPDATE Portfolio SET
                 quantity=" . $quantity . "
@@ -47,7 +49,7 @@ if ($_SESSION['login']) {
                 user_id=" . $_SESSION['id'] . " AND stock_id=" . $stock_id . ";";
 
                 if ($conn->query($sql)) {
-                  $_SESSION['balance'] = $_SESSION['balance'] - $data->quantity * $stock['latestPrice'];
+                  $_SESSION['balance'] = $_SESSION['balance'] - $stock->get_quantity() * $stock->get_value();
                   $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
                   $conn->query($sql);
                 }
@@ -73,7 +75,7 @@ if ($_SESSION['login']) {
         
         $conn = mysqli_connect($DBServerName, $DBUserName, $DBPassword, $DBName);
         
-        $sql = "SELECT id FROM Stocks WHERE symbol='" . $data->symbol . "';";
+        $sql = "SELECT id FROM Stocks WHERE symbol='" . $stock->get_symbol() . "';";
         $stock_id = $conn->query($sql)->fetch_assoc();
         $stock_id = $stock_id['id'];
         
@@ -81,33 +83,33 @@ if ($_SESSION['login']) {
         $quantity = $conn->query($sql)->fetch_assoc();
         $quantity = $quantity['quantity'];
         
-        if ($quantity == $data->quantity) {
+        if ($quantity == $stock->get_quantity()) {
           
           $sql = "DELETE FROM Portfolio WHERE user_id=" . $_SESSION['id'] . " AND stock_id=" . $stock_id . ";";
           if ($conn->query($sql)) {
-            $_SESSION['balance'] = $_SESSION['balance'] + $data->quantity * $stock['latestPrice'];
+            $_SESSION['balance'] = $_SESSION['balance'] + $stock->get_quantity() * $stock->get_value();
             $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
             $conn->query($sql);
           } else {
             echo json_encode(array('error' => "true", 'type' => 'database', 'message' => 'database error'));
           }
-        } elseif ($quantity > $data->quantity) {
+        } elseif ($quantity > $stock->get_quantity()) {
           
-          $quantity = $quantity - $data->quantity;
+          $quantity = $quantity - $stock->get_quantity();
           
           $sql = "UPDATE Portfolio SET
           quantity=" . $quantity . "
           WHERE user_id=" . $_SESSION['id'] . " AND stock_id=" . $stock_id . ";";
           
           if ($conn->query($sql)) {
-            $_SESSION['balance'] = $_SESSION['balance'] + $data->quantity * $stock['latestPrice'];
+            $_SESSION['balance'] = $_SESSION['balance'] + $stock->get_quantity() * $stock->get_value();
             $sql = "UPDATE Users SET balance=" . $_SESSION['balance'] . " WHERE id=" . $_SESSION['id'] . ";";
             $conn->query($sql);
           } else {
             echo json_encode(array('error' => "true", 'type' => 'database', 'message' => 'database error'));
           }
           
-        } elseif ($quantity < $data->quantity) {
+        } elseif ($quantity < $stock->get_quantity()) {
           echo json_encode(array('error' => "true", 'type' => 'transaction', 'message' => 'Insufficent stock to sell'));
         } else {
           echo json_encode(array('error' => "true", 'type' => 'transaction', 'message' => 'Bad Quantity'));
@@ -123,6 +125,8 @@ if ($_SESSION['login']) {
     }
    
   } 
+} else {
+  echo json_encode(array('error' => 'true', 'type' => 'authentication', 'message' => 'user not logged in'));
 }
 
 ?>

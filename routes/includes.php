@@ -23,6 +23,7 @@
   $GLOBALS['DB_USERNAME'] = $DB_USERNAME;
   $GLOBALS['DB_PASSWORD'] = $DB_PASSWORD;
   $GLOBALS['DB_NAME'] = $DB_NAME;
+
   $DBServerName = "localhost";
   $DBUserName = $DB_USERNAME;
   $DBPassword = $DB_PASSWORD;
