@@ -9,9 +9,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-click='' ng-repeat=''>
-              <th class='col-sm-1 text-left'>{{}}</th>
-              <th class='col-sm-5 text-left'>{{}}</th>
+            <tr ng-click='' ng-repeat='user in leaderboard'>
+              <th class='col-sm-1 text-left'>{{user.username}}</th>
+              <th class='col-sm-5 text-left'>{{user.net | currency}}</th>
             </tr>
           </tbody>
         </table>

@@ -383,17 +383,47 @@ app.controller('auth', function ($scope, $state, user) {
 }).controller('user-info', function ($scope, $http) {
 
 
-}).controller('leaderboard',function($http) {
-
-		var url = "routes/leaderboard.php";
-		$http({
-				method : 'GET',
-				url : url,
-				headers : {'Content-Type': 'application/json'}  
-			}).then(function (response) {
-				console.log(response.data);
-		});
+}).controller('leaderboard',function($scope, $http, $filter) {
 	
+	var i = 0;
+	$scope.stock_list = [];
+	$scope.stocks = [];
+	
+	var url = "routes/leaderboard.php";
+	$http({
+		method : 'GET',
+		url : url,
+		headers : {'Content-Type': 'application/json'}  
+	}).then(function (response) {
+		
+		$scope.leaderboard = response.data;
+		
+	});
+
+	/*
+	while (stock_list[0]) {
+		var i = 0;
+		var get_string = "";
+		var stock;
+		while ((i < 99) && stock_list[0]) {
+				stock = stock_list.shift();
+				get_string += stock.symbol + ",";
+				i++;
+			}
+
+			if (get_string) {
+				url = 'https://api.iextrading.com/1.0/stock/market/batch?symbols=' + get_string + '&types=quote';
+
+				$http({
+					method : 'GET',
+					url : url,
+					headers : {'Content-Type': 'application/json'}  
+				}).then(function (response) {
+					console.log(response.data);
+				})
+			}
+	}
+	*/
 }).controller('user-stocks', function ($scope, $state, $http) {
 	
 	$scope.load_chart = function (current_symbol) {
