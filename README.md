@@ -48,6 +48,8 @@ List of SQL commands to setup project tables:
 CREATE TABLE Users (id INT AUTO_INCREMENT, email VARCHAR(30), password VARCHAR(255), username VARCHAR(30), type VARCHAR(10), balance INT, PRIMARY KEY(id));
 CREATE TABLE Stocks (id INT AUTO_INCREMENT NOT NULL UNIQUE, name VARCHAR(50) NOT NULL, symbol VARCHAR(15) NOT NULL UNIQUE, sector VARCHAR(255) NOT NULL, industry VARCHAR(255) NOT NULL, enable BOOLEAN NOT NULL DEFAULT TRUE, PRIMARY KEY(id));CREATE TABLE Portfolio (id INT AUTO_INCREMENT, user_id INT, stock_id INT, PRIMARY KEY(id), FOREIGN KEY(user_id) REFERENCES Users(id), FOREIGN KEY(stock_id) REFERENCES Stocks(id));
 CREATE TABLE Transactions (id INT AUTO_INCREMENT NOT NULL UNIQUE, stock_id INT NOT NULL, user_id INT NOT NULL, quantity INT NOT NULL, value INT, type VARCHAR(10) NOT NULL, PRIMARY KEY(id), FOREIGN KEY(stock_id) REFERENCES Stocks(id), FOREIGN KEY(user_id) REFERENCES Users(id));
+CREATE TABLE ReportBug (reportID int auto_increment NOT NULL, userID int NOT NULL, description varchar(500) NOT NULL, solved datetime NOT NULL, status boolean NOT NULL, submitted datetime NOT NULL, PRIMARY KEY (reportID), FOREIGN KEY(userID) REFERENCES Users(id));
+
 ### tokens.php ###
 
 This file is included in includes.php, and contains my database information and other account information.
