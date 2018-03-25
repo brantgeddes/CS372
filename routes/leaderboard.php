@@ -95,33 +95,8 @@ if ($_SESSION['login']) {
     mysqli_close($conn);
   */
     
-    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
-    $sql = "SELECT id FROM Users WHERE type='trader';";
-    
-    $results = $conn->query($sql);
-    $user_list = array();
-    
-    while ($row = $results->fetch_assoc()){
-      $user_list[] = $row['id'];
-    }
-    
-    $user = new User();
-    $market = new Market();
-    
-    $i = 0;
-    $response = array();
-    while ($i < count($user_list)) {
-      $user->load($user_list[$i]);
-      $response[] = array('username' => $user->get_username(), 'net' => $market->net_worth($user));
-      $i++;
-    }
-    
-    usort($response, function ($item1, $item2) {
-      return ($item2['net'] == $item1['net']) ? 0 : (($item2['net'] > $item1['net']) ? 1 : -1);
-    });
-    
-    echo json_encode($response);
-    $conn->close();
+    $app = new App();
+    echo json_encode($app->leaderboard());
     
   } else {
 

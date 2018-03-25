@@ -47,7 +47,6 @@ class Market {
   }
   
   public function find_stocks($symbol) {
-    
     validate($symbol);
     $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
     $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
@@ -74,7 +73,6 @@ class Market {
     return $response;
 
     mysqli_close($conn);
-
     
   }
   
