@@ -2,6 +2,6 @@
 
 include 'includes.php';
 
-User::logout();
+App::logout();
 
 ?>

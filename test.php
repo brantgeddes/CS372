@@ -11,15 +11,9 @@ if ($method === 'POST') {
   echo json_encode(array("report" => $data->report));
 } else {
   
-  $user = new User();
-  echo json_encode($user->load(19));
-  $user->login();
-  $stock = new Stock("AAPL");
-  echo json_encode($stock->load());
-  $transaction = new Transaction($stock, $user, 10);
+  $app = new App();
   
-  echo json_encode($transaction->buy());
-  //echo json_encode($transaction->sell());
+  echo json_encode($app->toggle('AAPL'));
   
 }
 ?>

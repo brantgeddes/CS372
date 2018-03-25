@@ -5,13 +5,16 @@ class Transaction {
   private $stock;
   private $user;
   private $quantity;
+  private $type;
   private $value;
   
-  public function __construct(Stock $stock, User $user, $quantity, $value = null) {
+  public function __construct(Stock $stock, $quantity, $type) {
+    $this->user = new User();
+    $this->user->load();
     $this->stock = $stock;
-    $this->user = $user;
     $this->quantity = $quantity;
-    if ($value) $this->value = $value; else $this->value = $stock->get_value();
+    $this->type = $type;
+    $this->value = $stock->get_value();
   }
   
   public function get_stock() {

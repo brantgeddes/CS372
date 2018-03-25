@@ -9,9 +9,8 @@ if ($method === 'POST') {
   $str_json = file_get_contents('php://input');
   $data = json_decode($str_json);
   
-  $user = new User($data->email, $data->password, $data->username);
-  
-  echo json_encode($user->signup());
+  $app = new App();
+  echo json_encode($app->signup($data->email, $data->password, $data->username));
   
 }
 

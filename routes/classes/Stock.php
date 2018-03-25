@@ -10,7 +10,7 @@ class Stock {
   
   public function __construct($symbol = null, $name = null, $value = null, $quantity = null) {
     
-    $this->symbol = $symbol;
+    if ($symbol) $this->symbol = $symbol;
     
     if ($name) $this->name = $name;
     if ($value) $this->value = $value;
@@ -56,6 +56,56 @@ class Stock {
   
   public function set_quantity($quantity) {
     $this->quantity = $quantity;
+  }
+  
+  public function disable_stock($symbol = null) {
+    
+    if ($symbol) $this->symbol = $symbol;
+    
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+    $sql = "UPDATE Stocks SET enable = 0 WHERE symbol = '" . $this->symbol . "';";
+    
+    if ($conn->query($sql)) return array('enable' => 'false'); else return false;
+    
+    $conn->close();
+    
+  }
+  
+  public function enable_stock($symbol = null) {
+    
+    if ($symbol) $this->symbol = $symbol;
+    
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+    $sql = "UPDATE Stocks SET enable = 1 WHERE symbol = '" . $this->symbol . "';";
+    
+    if ($conn->query($sql)) return array('enable' => 'true'); else return false;
+    
+    $conn->close();
+    
+  }
+  
+  public function toggle_stock($symbol = null) {
+
+    if ($symbol) $this->symbol = $symbol;
+    
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+    $sql = "SELECT enable FROM Stocks WHERE symbol = '" . $this->symbol . "';";
+    
+    $results = $conn->query($sql)->fetch_assoc();
+    
+    switch($results["enable"]) {
+        
+      case 1:
+        return $this->disable_stock();
+        break;
+      case 0:
+        return $this->enable_stock();
+        break;
+        
+    }
+    
+    $conn->close();
+    
   }
   
   public function load() {
