@@ -71,11 +71,14 @@ class Transaction {
     
     if ($row = $conn->query($sql)->fetch_assoc()) {
       if ($this->quantity <= $row['t_quantity']) {
+        $conn->close();
         return $this->insert("SELL");
       } else {
+        $conn->close();
         return array('error' => "true", 'type' => 'transaction', 'message' => 'Insufficient Stock');
       }
     } else {
+      $conn->close();
       return array('error' => "true", 'type' => 'database', 'message' => 'database error');
     }
   }
@@ -90,8 +93,10 @@ class Transaction {
       if ($type == "BUY") $mul = -1; elseif ($type == "SELL") $mul = 1; else $mul = 0;
       $sql = "UPDATE Users SET balance = " . ($this->user->get_balance() + $mul * $this->stock->get_value() * $this->quantity). " WHERE id = " . $this->user->get_id() . ";";
       $conn->query($sql);
+      $conn->close();
       return array('success' => "true", "type" => "transaction", "message" => $type . " Successful");
     } else {
+      $conn->close();
       return array('error' => "true", 'type' => 'database', 'message' => 'database error');
     }
     

@@ -10,14 +10,6 @@ class Market {
     if ($user) $this->user = $user;      
   }
   
-  public function get_user() {
-    return $this->user;
-  }
-  
-  public function set_user(User $user) {
-    $this->user = $user;
-  }
-  
   public function return_stocks(User $user = null) {
     
     if ($user) $this->user = $user;
@@ -39,9 +31,9 @@ class Market {
       $i++;
     }
 
+    mysqli_close($conn);
     return $response;
 
-    mysqli_close($conn);
 
     
   }
@@ -70,9 +62,9 @@ class Market {
       $i++;
     }
 
+    mysqli_close($conn);
     return $response;
 
-    mysqli_close($conn);
     
   }
   

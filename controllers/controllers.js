@@ -445,6 +445,38 @@ app.controller('auth', function ($scope, $state, user) {
 		
 	});
 	
+}).controller('bug-list', function ($scope, $http) {
+	
+	var url = "routes/admin_report.php";
+	$http({
+		method : 'GET',
+		url : url,
+		headers : {'Content-Type': 'application/json'}
+	}).then(function (response) {
+		var reports = response.data;
+		reports.forEach(function (curr, index) {
+			reports[index].status = (reports[index].status == 1) ? "Solved" : "Active";
+		});
+		$scope.reports = reports;
+		
+	});
+	
+	$scope.mark_solved = function (report) {
+		var url = "routes/admin_report.php";
+		var data = {id: report.id};
+		
+		$http({
+		method : 'POST',
+		url : url,
+		data: data,
+		headers : {'Content-Type': 'application/json'}
+		}).then(function (response) {
+			$scope.reports.find(function (curr) {
+				return (curr.id === report.id);
+			}).status = "Solved";
+		});
+	}
+	
 });
 
 

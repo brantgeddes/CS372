@@ -1,0 +1,24 @@
+
+<div class="panel panel-primary">
+  
+  <div class="panel-heading">User submitted bugs:</div>
+  <div class='panel-body'>
+    <div class="row" ng-repeat='report in reports'>
+      <hr />
+      <div class="row">
+        <label class='col-sm-3'>Report ID: {{report.id}}</label>
+        <label class='col-sm-2'>{{report.username}}</label>
+        <label class='col-sm-4'>{{report.submitted}}</label>
+        <label class='col-sm-2'>Status: {{report.status}}</label>
+      </div>
+      <div>
+          <span>Details:</span> 
+          <textarea class="form-control" rows="5" readonly style='background-color:#FFF !important'>{{report.description}}</textarea>
+      </div>
+      
+      <button ng-click='mark_solved(report)' type='submit' class='btn btn-default col-sm-offset-10'>Solved</button>    
+      
+    </div>
+  </div>
+  
+</div>

@@ -156,6 +156,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
               templateUrl: 'views/admin-buglist.html',
               controller: 'admin'
             },
+            'bug-list@admin-bugs': {
+              templateUrl: 'views/forms/buglist-form.html',
+              controller: 'bug-list'
+            },
             'navbar@admin-bugs': {
               templateUrl: 'views/navbar-view/navbar-admin.html',
               controller: 'navbar'

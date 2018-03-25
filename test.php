@@ -12,8 +12,7 @@ if ($method === 'POST') {
 } else {
   
   $app = new App();
-  
-  echo json_encode($app->toggle('AAPL'));
-  
+  echo json_encode($app->mark_report(1));  
+ 
 }
 ?>

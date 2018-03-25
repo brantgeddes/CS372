@@ -38,10 +38,6 @@ class Stock {
     return $this->value;
   }
   
-  public function get_quantity() {
-    return $this->quantity;
-  }
-  
   public function set_symbol($symbol) {
     $this->symbol = $symbol;
   }
@@ -54,10 +50,6 @@ class Stock {
     $this->value = $value;
   }
   
-  public function set_quantity($quantity) {
-    $this->quantity = $quantity;
-  }
-  
   public function disable_stock($symbol = null) {
     
     if ($symbol) $this->symbol = $symbol;
@@ -65,9 +57,14 @@ class Stock {
     $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
     $sql = "UPDATE Stocks SET enable = 0 WHERE symbol = '" . $this->symbol . "';";
     
-    if ($conn->query($sql)) return array('enable' => 'false'); else return false;
+    if ($conn->query($sql)) {
+      $conn->close();
+      return array('enable' => 'false'); 
+    } else {
+      $conn->close();
+      return false;
+    }
     
-    $conn->close();
     
   }
   
@@ -78,9 +75,14 @@ class Stock {
     $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
     $sql = "UPDATE Stocks SET enable = 1 WHERE symbol = '" . $this->symbol . "';";
     
-    if ($conn->query($sql)) return array('enable' => 'true'); else return false;
+    if ($conn->query($sql)) { 
+      $conn->close();
+      return array('enable' => 'true'); 
+    } else {
+      $conn->close();
+      return false;
+    }
     
-    $conn->close();
     
   }
   
@@ -96,15 +98,16 @@ class Stock {
     switch($results["enable"]) {
         
       case 1:
+        $conn->close();
         return $this->disable_stock();
         break;
       case 0:
+        $conn->close();
         return $this->enable_stock();
         break;
         
     }
     
-    $conn->close();
     
   }
   
@@ -128,10 +131,11 @@ class Stock {
       $this->symbol = $result->{'symbol'};
       $this->name = $result->{'companyName'};
       $this->value = $result->{'latestPrice'};
-      
+      $conn->close();
       return array('success' => "true");
       
     } else {
+      $conn->close();
       return array('error' => "true", 'type' => 'database', 'message' => 'database error');
     }
     

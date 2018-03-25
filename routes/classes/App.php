@@ -5,16 +5,6 @@ class App {
   private $bug;
   private $market;
   
-  public function __construct() {}
-  
-  public function get_user() {
-    return $this->user->get();
-  }
-  
-  public function set_user(User $user) {
-    $this->user = $user;  
-  }
-  
   public function authentication($email, $password) {
     $this->user = new User($email, $password);
     return $this->user->authenticate();
@@ -112,8 +102,8 @@ class App {
       return ($item2['net'] == $item1['net']) ? 0 : (($item2['net'] > $item1['net']) ? 1 : -1);
     });
     
-    return $response;
     $conn->close();
+    return $response;
   }
   
   public function logout() {
@@ -149,9 +139,38 @@ class App {
     }
   }
   
-  public function report() {
+  public function report($description) {
     
+		$this->bug = new Bug_Report(validate($description));
+ 		return $this->bug->submit();
+		
   }
+	
+	public function get_reports() {
+		
+		$this->user = new User();
+		$this->user->load();
+		
+		if ($this->user->get_type() == 'admin') {
+			$this->bug = new Bug_Report();
+			return $this->bug->get();
+		} else {
+			return array("error" => "true", "type" => "Permission", "message" => "Must be an admin to view active bug reports");
+		}
+	}
+	
+	public function mark_report($id) {
+		
+		$this->user = new User();
+		$this->user->load();
+		if ($this->user->get_type() == 'admin') {
+			$this->bug = new Bug_Report();
+			return $this->bug->mark_solved($id);
+		} else {
+			return array("error" => "true", "type" => "Permission", "message" => "Must be an admin to alter bug reports");
+		}
+	}
+	
 }
 
 ?>

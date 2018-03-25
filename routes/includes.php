@@ -1,11 +1,13 @@
 <?php
-	
+
+	date_default_timezone_set('America/Regina');
 	session_start();  
 
   //This contains password information for db
   include 'tokens.php';
 	include 'classes/User.php';
 	include 'classes/Stock.php';
+	include 'classes/Bug_Report.php';
 	include 'classes/Transaction.php';
 	include 'classes/Market.php';
 	include 'classes/App.php';

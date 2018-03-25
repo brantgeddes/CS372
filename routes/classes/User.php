@@ -23,10 +23,6 @@ class User {
     return $this->email;
   }
   
-  public function get_password() {
-     return $this->password;
-  }
-  
   public function get_username() {
      return $this->username;
   }
@@ -102,14 +98,15 @@ class User {
       $this->username = $row['username'];
       $this->type = $row['type'];
       $this->balance = $row['balance'];
+      $conn->close();
       
       return array('success' => "true");
       
     } else {
+      $conn->close();
       return array('error' => "true", 'type' => 'database', 'message' => 'database error');
     }
     
-    $conn->close();
   }
   
   public function authenticate() {
@@ -130,11 +127,14 @@ class User {
           $this->set_username($row['username']);
           $this->set_balance($row['balance']);
           $this->login();
+          $conn->close();
           return array('valid' => 'true', 'email' => $this->email, 'username' => $row["username"], 'type' => $row["type"], 'balance' => $row["balance"]);
         } else {
+          $conn->close();
           return array('valid' => 'false');
         }
       } else {
+        $conn->close();
         return array('valid' => 'false');
       }
 
@@ -164,11 +164,14 @@ class User {
             $this->set_type('trader');
             $this->set_balance($GLOBALS['STARTING_BALANCE']);
             $this->login();
+            $conn->close();
             return array('valid' => 'true', 'email' => $this->email, 'username' => $this->username, 'type' => 'trader', 'balance' => $GLOBALS['STARTING_BALANCE']);
           } else {
+            $conn->close();
             return array('valid' => 'false');
           }
         } else {
+          $conn->close();
           return array('valid' => 'false', 'error' => (($this->email == $row['email']) ? "email" : "username"));
         }
 
