@@ -64,10 +64,26 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             'stocklist-form@search': {
               templateUrl: 'views/forms/stocklist-form.html',
               controller: 'stock-list'
-            }
-          }
+            },
+		  }
+		})
           
-          
+        .state('user-transactions', {
+		  url: '/transactions/:name',
+          views: {
+            '': {
+              templateUrl: 'views/user-transactions.html',
+              controller: 'trader'
+            },
+			  'navbar@user-transactions': {
+              templateUrl: 'views/navbar-view/navbar-user.html',
+              controller: 'navbar'
+            },
+            'transactions-form@user-transactions': {
+              templateUrl: 'views/forms/transactions-form.html',
+              controller: 'user-transactions'
+            },
+		  }
         })
         .state('portfolio', {
           url: '/portfolio',

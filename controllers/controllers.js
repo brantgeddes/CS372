@@ -381,9 +381,25 @@ app.controller('auth', function ($scope, $state, user) {
 	}	
 
 }).controller('user-info', function ($scope, $http) {
-
-
-}).controller('leaderboard',function($scope, $http, $filter) {
+	
+}).controller('user-transactions', function ($state, $scope, $http, $stateParams) {
+	console.log($stateParams.name);
+    var url = "routes/user_transactions.php?name=" + $stateParams.name;
+		$http({
+				method : 'GET',
+				url : url,
+				headers : {'Content-Type': 'application/json'}  
+			}).then(function (response) {
+				$scope.transactions = response.data;
+				console.log(response.data);	
+					
+		});
+}).controller('leaderboard',function($state, $scope, $http, $filter) {
+	
+	$scope.load_transactions = function (name) {
+		console.log(name);
+		$state.transitionTo('user-transactions', {name: name});
+  }
 	
 	var i = 0;
 	$scope.stock_list = [];
@@ -395,7 +411,7 @@ app.controller('auth', function ($scope, $state, user) {
 		url : url,
 		headers : {'Content-Type': 'application/json'}  
 	}).then(function (response) {
-		
+		console.log(response.data);	
 		$scope.leaderboard = response.data;
 		
 	});

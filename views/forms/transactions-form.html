@@ -1,0 +1,22 @@
+<div class='panel panel-primary'>
+      <div class='panel-body'>
+        <table class='table table-striped'>
+          <thead>
+            <tr>
+              <th class='col-sm-5 text-left'>Stock</th>
+              <th class='col-sm-2 text-center'>Quantity</th>
+              <th class='col-sm-2 text-center'>Value</th>
+              <th class='col-sm-2 text-center'>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-click='' ng-repeat='transaction in transactions track by $index'>
+              <th class='col-sm-5 text-left'>{{transaction.stock}}</th>
+              <th class='col-sm-2 text-center'>{{transaction.quantity}}</th>
+              <th class='col-sm-2 text-center'>{{transaction.value}}</th>
+              <th class='col-sm-2 text-center'>{{transaction.type}}</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
