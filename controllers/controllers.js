@@ -390,6 +390,7 @@ app.controller('auth', function ($scope, $state, user) {
 				url : url,
 				headers : {'Content-Type': 'application/json'}  
 			}).then(function (response) {
+				$scope.name = $stateParams.name;
 				$scope.transactions = response.data;
 				console.log(response.data);	
 					
