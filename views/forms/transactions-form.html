@@ -12,9 +12,9 @@
           <tbody>
             <tr ng-click='' ng-repeat='transaction in transactions track by $index'>
               <th class='col-sm-5 text-left'>{{transaction.stock}}</th>
-              <th class='col-sm-2 text-center'>{{transaction.quantity}}</th>
-              <th class='col-sm-2 text-center'>{{transaction.value}}</th>
-              <th class='col-sm-2 text-center'>{{transaction.type}}</th>
+              <th class='col-sm-2 text-center'>{{transaction.quantity | number}}</th>
+              <th class='col-sm-2 text-center'>{{transaction.value | currency}}</th>
+              <th class='col-sm-2 text-center'>{{transaction.type | uppercase}}</th>
             </tr>
           </tbody>
         </table>
