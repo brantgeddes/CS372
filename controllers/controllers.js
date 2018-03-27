@@ -381,8 +381,10 @@ app.controller('auth', function ($scope, $state, user) {
 		}).then(function (response) {
 			if (response.data.error) {
 				console.log(response.data);
+				$scope.stockerror=response.data.message;
 				if (response.data.type == "authentication") {user.logout();}
 			} else {
+				$scope.stockerror="";
 				$state.transitionTo('portfolio');
 			}
 		});
