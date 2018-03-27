@@ -129,8 +129,10 @@ class App {
   
   public function transaction($symbol, $quantity, $type) {
     
-    if ($quantity <= 0){
-      return array('error' => "true", 'type' => 'transaction', 'message' => 'Bad Quantity');
+    if (!is_int($quantity)){
+			return array('error' => "true", 'type' => 'transaction', 'message' => 'Bad quantity, must be an integer value');
+		} elseif ($quantity <= 0) {
+      return array('error' => "true", 'type' => 'transaction', 'message' => 'Bad quantity, must be greater than zero');
     } else {
 
       $this->market = new Market();
