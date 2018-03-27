@@ -27,7 +27,7 @@ class Market {
     $response = array();
     $i = 0;
     while(($i < 99) && $row = $result->fetch_assoc()){
-      $response[] = array('symbol' => $row["symbol"], 'quantity' => $row["quantity"]);
+      if ($row['quantity'] > 0) $response[] = array('symbol' => $row["symbol"], 'quantity' => $row["quantity"]);
       $i++;
     }
 
