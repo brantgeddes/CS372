@@ -5,7 +5,9 @@
         <form>
           <div class='form-group'>
             <div class='col-sm-12'>
-              <input ng-model='stock_symbol' ng-init='searchStocks()' ng-model-options='{ debounce: { default: 250, change: 1000 } }' ng-change='searchStocks()' type='text' class='form-control' name='stock_search'>
+              Stock: <input ng-model='stock_symbol' ng-init='searchStocks()' ng-model-options='{ debounce: { default: 250, change: 1000 } }' ng-change='searchStocks()' type='text' class='form-control' name='stock_search'>
+			  Sector: <select ng-model="selectedSector" ng-change="sectorchange(selectedSector); searchStocks();"> <option ng-repeat="sector in sectors">{{sector.sector}}</option></select>
+			  Industry: <select ng-model="selectedIndustry" ng-change='searchStocks();'> <option ng-repeat="industry in industrys">{{industry.industry}}</option></select>
             </div>
             
           </div>
