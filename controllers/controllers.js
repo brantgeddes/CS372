@@ -112,11 +112,15 @@ app.controller('auth', function ($scope, $state, user) {
 		
 	};
 	
-}).controller('stock-search', function ($scope, stock) {
-  
-  $scope.searchStocks = function (){
-    stock.search($scope.stock_symbol);
-    
+}).controller('stock-search', function ($rootScope, $scope, stock) {
+	if ($rootScope.search != "")
+	{
+		$scope.stock_symbol = $rootScope.search
+	}
+	$scope.searchStocks = function (){
+		$rootScope.search = $scope.stock_symbol;
+		//stock.search($scope.stock_symbol);
+		stock.search($rootScope.search);
   }
 
 }).controller('stock-list', function ($scope, $state, $http, stock, user) {
@@ -341,7 +345,7 @@ app.controller('auth', function ($scope, $state, user) {
 	});
 	
   
-}).controller('stock-info', function ($scope, $state, $http, $stateParams, user) {
+}).controller('stock-info', function ($scope, $state, $http, $stateParams, user, $stateParams) {
 	
 	$scope.symbol = $stateParams.symbol;
 	
@@ -390,6 +394,11 @@ app.controller('auth', function ($scope, $state, user) {
 		});
 		
 	}	
+	
+	$scope.return = function (name)
+	{
+		$state.transitionTo('search');
+	}
 
 }).controller('user-info', function ($scope, $http) {
 	

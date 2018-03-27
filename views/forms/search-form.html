@@ -5,7 +5,7 @@
         <form>
           <div class='form-group'>
             <div class='col-sm-12'>
-              <input ng-model='stock_symbol' ng-model-options='{ debounce: { default: 250, change: 1000 } }' ng-change='searchStocks()' type='text' class='form-control' name='stock_search'>
+              <input ng-model='stock_symbol' ng-init='searchStocks()' ng-model-options='{ debounce: { default: 250, change: 1000 } }' ng-change='searchStocks()' type='text' class='form-control' name='stock_search'>
             </div>
             
           </div>

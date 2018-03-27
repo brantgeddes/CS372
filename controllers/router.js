@@ -47,7 +47,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
           
         })
         .state('search', {
-          url: '/search',
+          url: '/search/',
           views: {
             '': {
               templateUrl: 'views/search.html',
