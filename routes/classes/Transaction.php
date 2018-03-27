@@ -6,6 +6,7 @@ class Transaction {
   private $user;
   private $quantity;
   private $type;
+  private $timestamp;
   private $value;
   
   public function __construct(Stock $stock, $quantity, $type) {
@@ -14,6 +15,7 @@ class Transaction {
     $this->stock = $stock;
     $this->quantity = $quantity;
     $this->type = $type;
+    $this->timestamp = date("Y/m/d H:i:s");
     $this->value = $stock->get_value();
   }
   
@@ -86,8 +88,8 @@ class Transaction {
   public function insert($type) {
     $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
           
-    $sql = "INSERT INTO Transactions (stock_id, user_id, quantity, value, type) 
-    VALUES (" . $this->stock->get_id() . ", " . $this->user->get_id() . ", " . $this->quantity . ", " . $this->value . ", '" . $type . "');";
+    $sql = "INSERT INTO Transactions (stock_id, user_id, quantity, value, timestamp, type) 
+    VALUES (" . $this->stock->get_id() . ", " . $this->user->get_id() . ", " . $this->quantity . ", " . $this->value . ", '" . $this->timestamp . "', '" . $type . "');";
     
     if ($conn->query($sql)) { 
       if ($type == "BUY") $mul = -1; elseif ($type == "SELL") $mul = 1; else $mul = 0;
