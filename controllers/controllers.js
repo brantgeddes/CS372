@@ -6,7 +6,7 @@ app.controller('auth', function ($scope, $state, user) {
   if (user.authenticate('admin')) $state.transitionTo('admin-stocks');  
   
 }).controller('login', function ($scope, $state, user) {
-  
+  	
   $scope.submitLogin = function () {
     
     var form_val_email = true;
@@ -14,10 +14,9 @@ app.controller('auth', function ($scope, $state, user) {
     
     if (validate($scope.login_email, pattern_email)) {
       form_val_email = true;
-       $scope.warning_login_email = "";
+      $scope.warning_login_email = "";
     } else {
       form_val_email = false;
-      $scope.warning_login_email = "Bad Email Input";
     }
     
     if (validate($scope.login_password, pattern_password)) {
@@ -25,20 +24,22 @@ app.controller('auth', function ($scope, $state, user) {
       $scope.warning_login_password = "";
     } else {
       form_val_password = false;
-      $scope.warning_login_password = "Bad Password Input";
     }
-    
+		
     if (form_val_email && form_val_password) {
-      if(user.login($scope.login_email, $scope.login_password))
-	  {
-		  $scope.warning_login_email = "";
-		  $scope.warning_login_password = "";
-	  }
-	  else
-	  {
-		  $scope.warning_login_email = "Login Failed";
-		  $scope.warning_login_password = "Incorrect Password/Email";
-	  }
+			
+			user.login($scope.login_email, $scope.login_password);
+      if(user.get_login() == "true") {
+				$scope.warning_login_email = "";
+				$scope.warning_login_password = "";
+	  	} else {
+				$scope.warning_login_email = "Login Failed";
+				$scope.warning_login_password = "Incorrect Password/Email";
+			}
+		} else {
+			$scope.warning_login_email = "Login Failed";
+			$scope.warning_login_password = "Incorrect Password/Email";
+	  	
     }
     
   }
@@ -56,7 +57,6 @@ app.controller('auth', function ($scope, $state, user) {
        $scope.warning_signup_email = "";
     } else {
       form_val_email = false;
-      $scope.warning_signup_email = "Bad Email Input";
     }
     
     if (validate($scope.signup_password, pattern_password) && $scope.signup_password == $scope.signup_duplicatepassword) {
@@ -64,7 +64,6 @@ app.controller('auth', function ($scope, $state, user) {
       $scope.warning_signup_password = "";
     } else {
       form_val_password = false;
-      $scope.warning_signup_password = "Bad Password Input";
     }
     
     if (validate($scope.signup_username, pattern_username)) {
@@ -72,12 +71,30 @@ app.controller('auth', function ($scope, $state, user) {
       $scope.warning_signup_username = "";
     } else {
       form_val_password = false;
-      $scope.warning_signup_username = "Bad Username Input";
     }
     
-    if (form_val_email && form_val_password && form_val_username) {
-      user.add($scope.signup_email, $scope.signup_password, $scope.signup_username);
-    }
+    if (form_val_email && form_val_password && form_val_username) {		
+			user.add($scope.signup_email, $scope.signup_password, $scope.signup_username);
+		
+			if (user.get_login() == "true") {
+				$scope.warning_login_email = "";
+				$scope.warning_login_password = "";
+			} else {
+				if (user.get_error() == "email") $scope.warning_signup_email = "Email already exists";
+				if (user.get_error() == "username") $scope.warning_signup_username = "Username already exists";
+				$scope.warning_signup_password = "";
+			}
+		} else {
+			$scope.warning_signup_email = "Signup Failed";
+			$scope.warning_signup_username = "Invalid information entered";
+			$scope.warning_signup_password = "";
+		}
+		
+		$scope.$on('user_error', function (event, arg) {
+			if (arg.error == "email") $scope.warning_signup_email = "Email already exists";
+			if (arg.error == "username") $scope.warning_signup_username = "Username already exists";
+		});
+		
   }
 
 }).controller('trader', function ($scope, $http, $state, user) {
@@ -113,7 +130,7 @@ app.controller('auth', function ($scope, $state, user) {
 	};
 	
 }).controller('stock-search', function ($rootScope, $scope, stock) {
-	if ($rootScope.search != "")
+	if ($rootScope.search !== "")
 	{
 		$scope.stock_symbol = $rootScope.search
 	}

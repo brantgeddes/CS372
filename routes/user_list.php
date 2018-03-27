@@ -8,7 +8,7 @@ if ($_SESSION['login']){
   if ($method === 'GET') {  //Get request to return user info
     $app = new App();
     
-    if ($_GET) {  //Query string exists, get certain users
+    if ($_GET) {  //Query string exists, get certain users {{not implemented on cient}}
       
       $name = $_GET['name'];
       echo json_encode($app->return_users($name));

@@ -1,7 +1,9 @@
 
-app.service('user', function($http, $cookieStore, $state) {
+app.service('user', function($rootScope, $http, $cookieStore, $state) {
   
   var user = [];
+  var login = false;
+  var error = "";
   
   this.authenticate = function (type) {
     
@@ -10,6 +12,14 @@ app.service('user', function($http, $cookieStore, $state) {
     } else {
       return false;
     }
+  }
+  
+  this.get_login = function () {
+    return login;  
+  }
+  
+  this.get_error = function () {
+    return error;
   }
   
   this.login = function (user_email, user_password) {
@@ -27,10 +37,12 @@ app.service('user', function($http, $cookieStore, $state) {
       
       if (response.data.valid == "true") {
         $cookieStore.put('user', response.data);
+        login = response.data.valid;
         if (response.data.type == "admin") $state.transitionTo('admin-stocks');
         if (response.data.type == "trader") $state.transitionTo('portfolio');
       } else {
         $cookieStore.remove('user');
+        login = response.data.valid;
         
       }
     });
@@ -68,6 +80,7 @@ app.service('user', function($http, $cookieStore, $state) {
         $state.transitionTo('portfolio');
         return true;
       } else {
+        $rootScope.$broadcast('user_error', {error: response.data.error});
         return false;
       }
     });
