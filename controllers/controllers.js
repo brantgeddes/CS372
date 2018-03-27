@@ -29,7 +29,16 @@ app.controller('auth', function ($scope, $state, user) {
     }
     
     if (form_val_email && form_val_password) {
-      user.login($scope.login_email, $scope.login_password);
+      if(user.login($scope.login_email, $scope.login_password))
+	  {
+		  $scope.warning_login_email = "";
+		  $scope.warning_login_password = "";
+	  }
+	  else
+	  {
+		  $scope.warning_login_email = "Login Failed";
+		  $scope.warning_login_password = "Incorrect Password/Email";
+	  }
     }
     
   }
