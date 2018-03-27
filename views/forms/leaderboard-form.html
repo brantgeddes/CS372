@@ -1,19 +1,20 @@
 
 <div class='panel panel-primary'>
-      <div class='panel-body'>
-        <table class='table table-striped'>
-          <thead>
-            <tr>
-              <th class='col-sm-1 text-left'>User Name</th>
-              <th class='col-sm-5 text-left'>Net Worth</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-click='load_transactions(user.username)' ng-repeat='user in leaderboard'>
-              <th class='col-sm-1 text-left'>{{user.username}}</th>
-              <th class='col-sm-5 text-left'>{{user.net | currency}}</th>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div class='panel-body' ng-hide='!page_load'>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th class='col-sm-1 text-left'>User Name</th>
+          <th class='col-sm-5 text-left'>Net Worth</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-click='load_transactions(user.username)' ng-repeat='user in leaderboard'>
+          <th class='col-sm-1 text-left'>{{user.username}}</th>
+          <th class='col-sm-5 text-left'>{{user.net | currency}}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="panel-footer" ng-hide='page_load'>Loading...</div>
+</div>

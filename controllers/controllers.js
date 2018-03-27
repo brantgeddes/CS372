@@ -408,6 +408,8 @@ app.controller('auth', function ($scope, $state, user) {
 		});
 }).controller('leaderboard',function($state, $scope, $http, $filter) {
 	
+	$scope.page_load = false;
+	
 	$scope.load_transactions = function (name) {
 		console.log(name);
 		$state.transitionTo('user-transactions', {name: name});
@@ -423,9 +425,9 @@ app.controller('auth', function ($scope, $state, user) {
 		url : url,
 		headers : {'Content-Type': 'application/json'}  
 	}).then(function (response) {
-		console.log(response.data);	
-		$scope.leaderboard = response.data;
 		
+		$scope.leaderboard = response.data;
+		$scope.page_load = true;
 	});
 
 	
