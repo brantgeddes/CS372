@@ -191,10 +191,39 @@ class App {
 		
 	}
 	
-	public function reset_account() {
+	public function return_users($name = null) {
+		
+		$conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+		if ($name) {
+			$sql = "SELECT * FROM Users WHERE type = 'trader' AND username LIKE '" . $name . "%';";
+		} else {
+			$sql = "SELECT * FROM Users WHERE type = 'trader';";
+		}
+		
+		if ($results = $conn->query($sql)) {
+			
+			$user_list = array();
+			
+			while ($row = $results->fetch_assoc()){
+				$user_list[] = array('id' => $row['id'], 'email' => $row['email'], 'username' => $row['username'], 'balance' => $row['balance']);
+			}
+			
+			$conn->close();
+			
+			return $user_list;
+			
+		} else {
+			$conn->close();
+			return array("error" => "true", "type" => "database", "message" => "Database error");
+		}
+		
+
+	}
+	
+	public function reset_account($id) {
 		
 		$this->user = new User();
-		$this->user->load();
+		$this->user->load($id);
 		
 		$this->user->reset();
 		

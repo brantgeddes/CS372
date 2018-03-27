@@ -181,6 +181,22 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
               controller: 'navbar'
             }
           }
-    });
+    }).state('admin-users', {
+			url: '/user-list',
+			views: {
+				'': {
+					templateUrl: 'views/admin-userlist.html',
+					controller: 'admin'
+				},
+				'user-list@admin-users': {
+					templateUrl: 'views/forms/userlist-form.html',
+					controller: 'user-list'
+				},
+				'navbar@admin-users': {
+					templateUrl: 'views/navbar-view/navbar-admin.html',
+          controller: 'navbar'
+				}
+			}
+		});
 
 });

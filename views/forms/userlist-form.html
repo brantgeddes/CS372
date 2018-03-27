@@ -1,0 +1,27 @@
+
+
+<div class="panel panel-primary">
+  <div class='panel-heading'>Users:</div>  
+  <div class='panel-body'>
+    <table class='table table-striped'>
+          <thead>
+            <tr>
+              <th class='col-sm-1 text-left'>ID</th>
+              <th class='col-sm-5 text-left'>Email</th>
+              <th class='col-sm-3 text-center'>Username</th>
+              <th class='col-sm-2 text-center'>Balance</th>
+              <th class='col-sm-1 text-center'></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-click='reset_user(user)' ng-repeat='user in users'>
+              <th class='col-sm-1 text-left'>{{user.id}}</th>
+              <th class='col-sm-5 text-left'>{{user.email}}</th>
+              <th class='col-sm-3 text-center'>{{user.username}}</th>
+              <th class='col-sm-2 text-center'>{{user.balance}}</th>
+              <th class='col-sm-1 text-center'></th>
+            </tr>
+          </tbody>
+        </table>
+  </div>
+</div>

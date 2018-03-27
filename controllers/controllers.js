@@ -516,6 +516,36 @@ app.controller('auth', function ($scope, $state, user) {
 		});
 	}
 	
+}).controller('user-list', function ($scope, $http) {
+	
+	var url = "routes/user_list.php";
+	$http({
+		method: 'GET',
+		url: url
+	}).then(function (response) {
+		$scope.users = response.data;
+	});
+	
+	
+	$scope.reset_user = function(user) {
+		
+		var url = "routes/user_list.php";
+		var data = {
+			id: user.id
+		}
+		
+		$http({
+			method: 'POST',
+			url: url,
+			data: data,
+			headers: {'Content-Type' : 'application/json'}
+		}).then(function (response) {
+			$scope.users.find(function (curr) {
+				return curr == user;
+			}).balance = "RESET";
+		});
+	}
+	
 });
 
 
