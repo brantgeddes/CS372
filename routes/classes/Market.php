@@ -115,7 +115,6 @@ class Market {
       } else {
         return array('error' => "true", 'type' => 'transaction', 'message' => 'transaction type out of bounds');
       }
-      
   }
   
   public function toggle($symbol) {
@@ -128,7 +127,12 @@ class Market {
     
     $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
 
-    $sql = "select username,name,quantity,value,Transactions.type as type from Transactions inner join Users on Transactions.user_id=Users.id inner join Stocks on Transactions.stock_id=Stocks.id where Users.id = " . $this->user->get_id() . ";";
+    $sql = "select username,name,quantity,value,Transactions.type as type 
+    from Transactions 
+    inner join Users on Transactions.user_id=Users.id 
+    inner join Stocks on Transactions.stock_id=Stocks.id 
+    where Users.id = " . $this->user->get_id() . " 
+    ORDER BY Transactions.id DESC;";
     
     $results = $conn->query($sql);
     while ($row = $results->fetch_assoc())

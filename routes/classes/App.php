@@ -128,7 +128,7 @@ class App {
   }
   
   public function transaction($symbol, $quantity, $type) {
-    
+		
     if (!is_int($quantity)){
 			return array('error' => "true", 'type' => 'transaction', 'message' => 'Bad quantity, must be an integer value');
 		} elseif ($quantity <= 0) {
