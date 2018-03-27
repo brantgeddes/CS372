@@ -191,6 +191,15 @@ class App {
 		
 	}
 	
+	public function reset_account() {
+		
+		$this->user = new User();
+		$this->user->load();
+		
+		$this->user->reset();
+		
+	}
+	
 }
 
 ?>

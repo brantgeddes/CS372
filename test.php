@@ -11,8 +11,9 @@ if ($method === 'POST') {
   echo json_encode(array("report" => $data->report));
 } else {
   
-  $app = new App();
-	echo json_encode($app->user_transactions('test'));
+	$user = new User();
+	$user->load(25);
+	echo json_encode($user->reset());
 
  
 }

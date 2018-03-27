@@ -109,6 +109,25 @@ class User {
     
   }
   
+  public function reset(){
+    
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+
+    $sql = "UPDATE Users 
+    SET balance = " . $GLOBALS['STARTING_BALANCE'] . " 
+    WHERE id = " . $this->id . ";
+    DELETE FROM Transactions WHERE user_id = " . $this->id . ";";
+    
+    if ($conn->multi_query($sql)) {
+      $conn->close();
+      return array('success' => "true"); 
+    } else {
+      $conn->close();
+      return array('error' => "true", 'type' => 'database', 'message' => 'database error');
+    }
+    
+  }
+  
   public function authenticate() {
     
     if ($_SESSION['login']) {
