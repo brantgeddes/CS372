@@ -7,7 +7,7 @@ class Market {
   private $user;
   
   public function __construct(User $user = null) {
-    if ($user) $this->user = $user;      
+    if ($user) $this->user = $user; else $user = new User();      
   }
   
   public function return_stocks(User $user = null) {
@@ -121,6 +121,23 @@ class Market {
   public function toggle($symbol) {
     $this->stock = new Stock();
     return $this->stock->toggle_stock($symbol);
+  }
+  
+  public function return_transactions(User $user = null) {
+    if ($user) $this->user = $user; else $this->user->load();
+    
+    $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+
+    $sql = "select username,name,quantity,value,Transactions.type as type from Transactions inner join Users on Transactions.user_id=Users.id inner join Stocks on Transactions.stock_id=Stocks.id where Users.id = " . $this->user->get_id() . ";";
+    
+    $results = $conn->query($sql);
+    while ($row = $results->fetch_assoc())
+    {
+      $response[] = array('stock' => $row['name'], 'quantity' => $row['quantity'], 'value' => $row['value'], 'type' => $row['type']);
+    }
+    
+    $conn->close();
+    return $response;
   }
   
 }

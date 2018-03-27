@@ -173,6 +173,24 @@ class App {
 		}
 	}
 	
+	public function user_transactions($name) {
+		
+		$conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
+		$sql = "SELECT id FROM Users WHERE username = '" . $name . "';";
+		if ($row = $conn->query($sql)->fetch_assoc()) {
+			$this->user = new User();
+			$this->user->load($row['id']);
+			$market = new Market();
+			$conn->close();
+			return $market->return_transactions($this->user);
+		} else {
+			$conn->close();
+			return array("error" => "true", "type" => "database", "message" => "User does not exist");
+		}
+		
+		
+	}
+	
 }
 
 ?>
