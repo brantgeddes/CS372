@@ -345,7 +345,7 @@ app.controller('auth', function ($scope, $state, user) {
 	});
 	
   
-}).controller('stock-info', function ($scope, $state, $http, $stateParams, user, $stateParams) {
+}).controller('stock-info', function ($scope, $state, $http, $stateParams, user) {
 	
 	$scope.symbol = $stateParams.symbol;
 	
