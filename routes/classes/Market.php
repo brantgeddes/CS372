@@ -45,6 +45,14 @@ class Market {
 	{
 	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
 	}
+	elseif($symbol != 'undefined' and $sector == 'null' and $industry == 'undefined')
+	{
+		$sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
+	}
+	elseif($symbol != 'undefined' and $sector == 'null' and $industry == 'null')
+	{
+		$sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
+	}
 	elseif($symbol != 'undefined' and $sector != 'undefined' and $industry == 'undefined')
 	{
 	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%' and sector = '" . $sector . "';";

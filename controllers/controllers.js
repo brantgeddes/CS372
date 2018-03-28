@@ -123,7 +123,8 @@ app.controller('auth', function ($scope, $state, user) {
 			console.log(response.data);
 		});
 	$scope.sectorchange = function(sector){	
-	console.log(sector);
+	$scope.selectedIndustry = undefined;
+	$rootScope.industry = undefined;
 	var url = 'routes/industry.php?sector=' + sector;
 		$http({
 			method : 'GET',
