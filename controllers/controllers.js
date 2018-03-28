@@ -57,6 +57,7 @@ app.controller('auth', function ($scope, $state, user) {
        $scope.warning_signup_email = "";
     } else {
       form_val_email = false;
+			$scope.warning_signup_email = "Invalid email, email must be standard email format: name@domain.com";
     }
     
     if (validate($scope.signup_password, pattern_password) && $scope.signup_password == $scope.signup_duplicatepassword) {
@@ -64,6 +65,9 @@ app.controller('auth', function ($scope, $state, user) {
       $scope.warning_signup_password = "";
     } else {
       form_val_password = false;
+			$scope.warning_signup_password = ($scope.signup_password == $scope.signup_duplicatepassword) 
+				? "Invalid password, password must be 8 characters long and contain one special character ($@$!%*#?&)"
+				: "Passwords must match";
     }
     
     if (validate($scope.signup_username, pattern_username)) {
@@ -71,6 +75,7 @@ app.controller('auth', function ($scope, $state, user) {
       $scope.warning_signup_username = "";
     } else {
       form_val_password = false;
+			$scope.warning_signup_username = "Invalid username, name must be atleast two characters long, may contain an underscore, but must not end with an underscore";
     }
     
     if (form_val_email && form_val_password && form_val_username) {		
@@ -84,10 +89,6 @@ app.controller('auth', function ($scope, $state, user) {
 				if (user.get_error() == "username") $scope.warning_signup_username = "Username already exists";
 				$scope.warning_signup_password = "";
 			}
-		} else {
-			$scope.warning_signup_email = "Signup Failed";
-			$scope.warning_signup_username = "Invalid information entered";
-			$scope.warning_signup_password = "";
 		}
 		
 		$scope.$on('user_error', function (event, arg) {
