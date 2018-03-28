@@ -130,7 +130,7 @@ app.controller('auth', function ($scope, $state, user) {
 	};
 	
 }).controller('stock-search', function ($rootScope, $scope, stock) {
-	if ($rootScope.search !== "")
+	if ($rootScope.search != "")
 	{
 		$scope.stock_symbol = $rootScope.search
 	}
