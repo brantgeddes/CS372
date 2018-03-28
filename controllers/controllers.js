@@ -138,6 +138,7 @@ app.controller('auth', function ($scope, $state, user) {
 	};
 	
 }).controller('stock-search', function ($http, $rootScope, $scope, stock) {
+	
 	var url = 'routes/sector.php';
 		$http({
 			method : 'GET',
@@ -147,7 +148,9 @@ app.controller('auth', function ($scope, $state, user) {
 			$scope.sectors = response.data;
 			console.log(response.data);
 		});
+	
 	$scope.sectorchange = function(sector){	
+		
 	$scope.selectedIndustry = undefined;
 	$rootScope.industry = undefined;
 	var url = 'routes/industry.php?sector=' + sector;
@@ -164,11 +167,11 @@ app.controller('auth', function ($scope, $state, user) {
 	{
 		$scope.stock_symbol = $rootScope.search
 	}
-	if ($rootScope.sector != "")
+	if ($rootScope.sector !== "")
 	{
 		$scope.selectedSector = $rootScope.sector
 	}
-	if ($rootScope.industry != "")
+	if ($rootScope.industry !== "")
 	{
 		$scope.selectedIndustry = $rootScope.industry
 	}

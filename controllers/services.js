@@ -103,7 +103,7 @@ app.service('user', function($rootScope, $http, $cookieStore, $state) {
 
     $http({
       method : 'GET',
-      url : 'routes/find_stocks.php?name=' + symbol + '&sector=' + sector + '&industry=' + industry,
+      url : 'routes/find_stocks.php?' + ((symbol) ? ('name=' + symbol) : "" ) + ((sector) ? ('&sector=' + sector) : "") + ((industry) ? ('&industry=' + industry) : ""),
       headers : {'Content-Type': 'application/json'}  
     }).then(function (response) {
       log_event("Response from server", response.data);
