@@ -42,7 +42,7 @@ app.service('user', function($rootScope, $http, $cookieStore, $state) {
         if (response.data.type == "trader") $state.transitionTo('portfolio');
       } else {
         $cookieStore.remove('user');
-        login = response.data.valid;
+        $rootScope.$broadcast('user_login_error', {error: 'true'});
         
       }
     });
@@ -80,7 +80,7 @@ app.service('user', function($rootScope, $http, $cookieStore, $state) {
         $state.transitionTo('portfolio');
         return true;
       } else {
-        $rootScope.$broadcast('user_error', {error: response.data.error});
+        $rootScope.$broadcast('user_signup_error', {error: response.data.error});
         return false;
       }
     });

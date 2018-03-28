@@ -12,37 +12,30 @@ app.controller('auth', function ($scope, $state, user) {
     var form_val_email = true;
     var form_val_password = true;
     
-    if (validate($scope.login_email, pattern_email)) {
+    if ($scope.login_email && validate($scope.login_email, pattern_email) && $scope.login_email.length > 0) {
       form_val_email = true;
       $scope.warning_login_email = "";
     } else {
       form_val_email = false;
+			$scope.warning_login_email = "Invalid Email";
     }
     
-    if (validate($scope.login_password, pattern_password)) {
+    if ($scope.login_password && validate($scope.login_password, pattern_password) && $scope.login_password.length > 0) {
       form_val_password = true;
       $scope.warning_login_password = "";
     } else {
       form_val_password = false;
+			$scope.warning_login_password = "Invalid Password";
     }
 		
-    if (form_val_email && form_val_password) {
-			
-			user.login($scope.login_email, $scope.login_password);
-      if(user.get_login() == "true") {
-				$scope.warning_login_email = "";
-				$scope.warning_login_password = "";
-	  	} else {
-				$scope.warning_login_email = "Login Failed";
-				$scope.warning_login_password = "Incorrect Password/Email";
-			}
-		} else {
-			$scope.warning_login_email = "Login Failed";
-			$scope.warning_login_password = "Incorrect Password/Email";
-	  	
-    }
+    if (form_val_email && form_val_password) user.login($scope.login_email, $scope.login_password);
     
   }
+	
+	$scope.$on('user_login_error', function (event, arg) {
+		$scope.warning_login_email = "Login Failed";
+		$scope.warning_login_password = "Incorrect User Credentials";
+	});
   
 }).controller('signup', function ($scope, user){
   
@@ -94,7 +87,7 @@ app.controller('auth', function ($scope, $state, user) {
 			}
 		}
 		
-		$scope.$on('user_error', function (event, arg) {
+		$scope.$on('user_signup_error', function (event, arg) {
 			if (arg.error == "email") $scope.warning_signup_email = "Email already exists";
 			if (arg.error == "username") $scope.warning_signup_username = "Username already exists";
 		});
