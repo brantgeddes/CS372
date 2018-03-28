@@ -129,47 +129,15 @@ app.controller('auth', function ($scope, $state, user) {
 		
 	};
 	
-}).controller('stock-search', function ($http, $rootScope, $scope, stock) {
-	var url = 'routes/sector.php';
-		$http({
-			method : 'GET',
-			url : url,
-			headers : {'Content-Type': 'application/json'}  
-		}).then(function (response) {
-			$scope.sectors = response.data;
-			console.log(response.data);
-		});
-	$scope.sectorchange = function(sector){	
-	$scope.selectedIndustry = undefined;
-	$rootScope.industry = undefined;
-	var url = 'routes/industry.php?sector=' + sector;
-		$http({
-			method : 'GET',
-			url : url,
-			headers : {'Content-Type': 'application/json'}  
-		}).then(function (response) {
-			console.log(response.data);
-			$scope.industrys = response.data;
-		});
-	}
-	if ($rootScope.search !== "")
+}).controller('stock-search', function ($rootScope, $scope, stock) {
+	if ($rootScope.search != "")
 	{
 		$scope.stock_symbol = $rootScope.search
 	}
-	if ($rootScope.sector != "")
-	{
-		$scope.selectedSector = $rootScope.sector
-	}
-	if ($rootScope.industry != "")
-	{
-		$scope.selectedIndustry = $rootScope.industry
-	}
 	$scope.searchStocks = function (){
 		$rootScope.search = $scope.stock_symbol;
-		$rootScope.sector = $scope.selectedSector;
-		$rootScope.industry = $scope.selectedIndustry;
 		//stock.search($scope.stock_symbol);
-		stock.search($rootScope.search,$rootScope.sector,$rootScope.industry);
+		stock.search($rootScope.search);
   }
 
 }).controller('stock-list', function ($scope, $state, $http, stock, user) {

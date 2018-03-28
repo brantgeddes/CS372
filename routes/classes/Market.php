@@ -55,19 +55,19 @@ class Market {
 	}
 	elseif($symbol != 'undefined' and $sector != 'undefined' and $industry == 'undefined')
 	{
-	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%' and sector = '" . $sector . "';";
+	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%' and sector LIKE '" . $sector . "%';";
 	}
 	elseif($symbol != 'undefined' and $sector != 'undefined' and $industry != 'undefined')
 	{
-	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%' and sector = '" . $sector . "' and industry = '" . $industry . "';";
+	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%' and sector LIKE '" . $sector . "%' and industry LIKE '" . $industry . "%';";
 	}
 	elseif($symbol == 'undefined' and $sector != 'undefined' and $industry == 'undefined')
 	{
-	   $sql = "SELECT * FROM Stocks WHERE sector = '" . $sector . "';";
+	   $sql = "SELECT * FROM Stocks WHERE sector LIKE '" . $sector . "%';";
 	}
 	elseif($symbol == 'undefined' and $sector != 'undefined' and $industry != 'undefined')
 	{
-	   $sql = "SELECT * FROM Stocks WHERE sector = '" . $sector . "' and industry = '" . $industry . "';";
+	   $sql = "SELECT * FROM Stocks WHERE sector LIKE '" . $sector . "%' and industry LIKE '" . $industry . "%';";
 	}
 
     $result = $conn->query($sql);

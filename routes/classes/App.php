@@ -14,7 +14,7 @@ class App {
     $this->user = new User();
 		$this->user->load();
 		$this->market = new Market($this->user);
-		return $this->market->find_stocks($symbol, $sector, $industry);
+		return $this->market->find_stocks(validate($symbol), validate($sector), validate($industry));
   }
   
   public function import_stocks() {
