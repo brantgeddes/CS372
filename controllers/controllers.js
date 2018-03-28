@@ -52,7 +52,7 @@ app.controller('auth', function ($scope, $state, user) {
     var form_val_password = true;
     var form_val_username = true;
     
-    if (validate($scope.signup_email, pattern_email)) {
+    if ($scope.signup_email && validate($scope.signup_email, pattern_email) && $scope.signup_email.length > 0 && $scope.signup_email.length < 50) {
       form_val_email = true;
        $scope.warning_signup_email = "";
     } else {
@@ -60,7 +60,10 @@ app.controller('auth', function ($scope, $state, user) {
 			$scope.warning_signup_email = "Invalid email, email must be standard email format: name@domain.com";
     }
     
-    if (validate($scope.signup_password, pattern_password) && $scope.signup_password == $scope.signup_duplicatepassword) {
+    if ($scope.signup_password && validate($scope.signup_password, pattern_password) && 
+				$scope.signup_password == $scope.signup_duplicatepassword && 
+				$scope.signup_password.length > 0 && 
+			 	$scope.signup_password.length < 50) {
       form_val_password = true;
       $scope.warning_signup_password = "";
     } else {
@@ -70,7 +73,7 @@ app.controller('auth', function ($scope, $state, user) {
 				: "Passwords must match";
     }
     
-    if (validate($scope.signup_username, pattern_username)) {
+    if ($scope.signup_username && validate($scope.signup_username, pattern_username) && $scope.signup_username.length > 0 && $scope.signup_username.length < 50) {
       form_val_username = true;
       $scope.warning_signup_username = "";
     } else {
@@ -108,9 +111,13 @@ app.controller('auth', function ($scope, $state, user) {
 		url : url,
 		headers : {'Content-Type': 'application/json'}  
 	}).then(function (response) {
-		$scope.email = response.data.email;
-		$scope.username = response.data.username;
-		$scope.balance = response.data.balance;
+		if (response.data.valid == "true") {
+			$scope.email = response.data.email;
+			$scope.username = response.data.username;
+			$scope.balance = response.data.balance;
+		} else {
+			user.logout();
+		}
 	});
 	
 }).controller('admin', function ($scope, $http, $state, user) {
