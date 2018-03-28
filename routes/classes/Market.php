@@ -38,10 +38,37 @@ class Market {
     
   }
   
-  public function find_stocks($symbol) {
+  public function find_stocks($symbol, $sector, $industry) {
     validate($symbol);
     $conn = mysqli_connect($GLOBALS['DB_SERVER'], $GLOBALS['DB_USERNAME'], $GLOBALS['DB_PASSWORD'], $GLOBALS['DB_NAME']);
-    $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
+	if($symbol != 'undefined' and $sector == 'undefined' and $industry == 'undefined')
+	{
+	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
+	}
+	elseif($symbol != 'undefined' and $sector == 'null' and $industry == 'undefined')
+	{
+		$sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
+	}
+	elseif($symbol != 'undefined' and $sector == 'null' and $industry == 'null')
+	{
+		$sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%';";
+	}
+	elseif($symbol != 'undefined' and $sector != 'undefined' and $industry == 'undefined')
+	{
+	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%' and sector = '" . $sector . "';";
+	}
+	elseif($symbol != 'undefined' and $sector != 'undefined' and $industry != 'undefined')
+	{
+	   $sql = "SELECT * FROM Stocks WHERE name LIKE '" . $symbol . "%' and sector = '" . $sector . "' and industry = '" . $industry . "';";
+	}
+	elseif($symbol == 'undefined' and $sector != 'undefined' and $industry == 'undefined')
+	{
+	   $sql = "SELECT * FROM Stocks WHERE sector = '" . $sector . "';";
+	}
+	elseif($symbol == 'undefined' and $sector != 'undefined' and $industry != 'undefined')
+	{
+	   $sql = "SELECT * FROM Stocks WHERE sector = '" . $sector . "' and industry = '" . $industry . "';";
+	}
 
     $result = $conn->query($sql);
     $response = array();
@@ -61,11 +88,10 @@ class Market {
       }
       $i++;
     }
-
+	
     mysqli_close($conn);
     return $response;
 
-    
   }
   
   public function net_worth(User $user = null) {

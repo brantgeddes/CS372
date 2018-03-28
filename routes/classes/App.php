@@ -10,11 +10,11 @@ class App {
     return $this->user->authenticate();
   } 
   
-  public function find_stocks($symbol) {
+  public function find_stocks($symbol, $sector, $industry) {
     $this->user = new User();
 		$this->user->load();
 		$this->market = new Market($this->user);
-		return $this->market->find_stocks($symbol);
+		return $this->market->find_stocks($symbol, $sector, $industry);
   }
   
   public function import_stocks() {

@@ -99,11 +99,11 @@ app.service('user', function($rootScope, $http, $cookieStore, $state) {
   
   var stock_list = [];
   
-  this.search = function (symbol) {
-    
+  this.search = function (symbol, sector, industry) {
+
     $http({
       method : 'GET',
-      url : 'routes/find_stocks.php?name=' + symbol,
+      url : 'routes/find_stocks.php?name=' + symbol + '&sector=' + sector + '&industry=' + industry,
       headers : {'Content-Type': 'application/json'}  
     }).then(function (response) {
       log_event("Response from server", response.data);
