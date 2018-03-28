@@ -4,11 +4,11 @@
           <div class="panel-body">
             <form>
                 <div class='form-group'>
-                    <label for='comment'>Details:</label> 
+                    <label for='comment'>Details: {{warning}}</label> 
                     <textarea ng-model='text_input' class="form-control" rows="5" name="comment"></textarea>
                 </div>
                
-                <button ng-click='submit_report(text_input)' type='submit' class='btn btn-default'>Submit</button>    
+                <button ng-click='submit_report(text_input)' type='submit' class='btn btn-default'>Submit</button>  
             </form>
         </div>
       </div>

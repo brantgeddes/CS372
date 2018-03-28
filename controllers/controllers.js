@@ -230,18 +230,30 @@ app.controller('auth', function ($scope, $state, user) {
 	
 	$scope.submit_report = function (report) {
 		
-		var url = "routes/report.php";
-		var data = JSON.stringify({report: report});
+		var min_characters = 10;
+		var max_characters = 140;
 		
-		$http({
-			method : 'POST',
-			url : url,
-			data: data,
-			headers : {'Content-Type': 'application/json'}  
-		}).then(function (response) {
-			console.log(response.data);
-			$state.transitionTo('portfolio')
-		});
+		if (!report) {
+			$scope.warning = "Please enter information about the bug";
+		} else if (report.length < min_characters) {
+			$scope.warning = "Please enter atleast " + min_characters + " characters";
+		} else if (report.length > max_characters) {
+			$scope.warning = "Please enter no more than " + max_characters + " characters";				 
+		} else {
+		
+			var url = "routes/report.php";
+			var data = JSON.stringify({report: report});
+
+			$http({
+				method : 'POST',
+				url : url,
+				data: data,
+				headers : {'Content-Type': 'application/json'}  
+			}).then(function (response) {
+				console.log(response.data);
+				$state.transitionTo('portfolio')
+			});
+		}
 	}
   
 }).controller('chart', function ($scope, $http, $state, $stateParams, user) {
