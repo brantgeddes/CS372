@@ -172,7 +172,6 @@ app.controller('auth', function ($scope, $state, user) {
 		$rootScope.search = $scope.stock_symbol;
 		$rootScope.sector = $scope.selectedSector;
 		$rootScope.industry = $scope.selectedIndustry;
-		//stock.search($scope.stock_symbol);
 		stock.search($rootScope.search,$rootScope.sector,$rootScope.industry);
   }
 

@@ -38,7 +38,6 @@ class App {
       {
         if ($stock->{"isEnabled"} == true and $stock->{"name"}!=""and $stock->{"symbol"}!="") 
         {
-          #$api_endpoint = 'https://api.iextrading.com/1.0/stock/market/batch?symbols='.$stock->{"symbol"}.'&types=company';     
           $api_endpoint = 'https://api.iextrading.com/1.0/stock/'.$stock->{"symbol"}.'/batch?types=company';
           curl_setopt($curl, CURLOPT_URL, $api_endpoint);
           curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
